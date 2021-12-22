@@ -1,0 +1,18 @@
+.wrapperFullPage{
+  overflow: hidden;
+}
+.hide{
+  width: 50px;
+}
+.show{
+  width: 300px;
+}
+.containerAside{
+  overflow-y: auto;
+  height: 100vh;
+}
+.containerContent{
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+}

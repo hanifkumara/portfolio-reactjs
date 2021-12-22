@@ -1,0 +1,35 @@
+.container{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(53, 53, 53);
+}
+
+.textDanger {
+  color: red
+}
+.line1{
+  width: 10%;
+  height: 4px;
+  background-color: rgb(8, 206, 8);
+}
+.line2{
+  z-index: 999;
+  width: 50%;
+  height: 4px;
+  background-color: rgb(8, 206, 8);
+}
+.leftHeader{
+  position: relative;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.pt50{
+  padding-top: 50px;
+}
+.wrapperPhoto{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
