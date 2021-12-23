@@ -67,3 +67,30 @@ h1{
   background: #855439; 
 }
 /* End Styling Scrollbar */
+
+/* Start Global Styling */
+.font-17{
+  font-size: 1.0625rem;
+}
+.font-16{
+  font-size: 1rem;
+}
+.font-14{
+  font-size: 0.875rem;
+}
+.font-10{
+  font-size: 0.625rem;
+}
+.font-weight-700{
+  font-weight: 700;
+}
+.font-weight-600{
+  font-weight: 600;
+}
+.font-weight-500{
+  font-weight: 500;
+}
+.font-weight-400{
+  font-weight: 400;
+}
+/* End Global Styling */

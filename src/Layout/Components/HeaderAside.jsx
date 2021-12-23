@@ -8,8 +8,8 @@ export default function HeaderAside({handleToggleAside}) {
   return (
     <div>
       <div className={`${styles.containerHeaderAside} d-flex justify-content-between`}>
+        <div className='font-17 font-weight-700'>LOGITECH</div>
         <div onClick={toggleAside} className="btn bg-secondary">Panah kiri</div>
-        <div>HNZ POS</div>
       </div>
     </div>
   )

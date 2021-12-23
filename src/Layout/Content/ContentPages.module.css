@@ -1,0 +1,28 @@
+.wrapperHeaderContent{
+  padding: 0.7rem 1.9rem;
+}
+.wrapperOutlet{
+  background: #E9E9E9;
+  padding: 1.3rem 1.9rem;
+}
+.wrapperPrefix{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  background-color: rgb(152,117,84);
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.wrapperFullname{
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+}
+.wrapperFullname:hover{
+  background-color: rgb(231, 231, 231);
+  border-radius: 5px;
+}
