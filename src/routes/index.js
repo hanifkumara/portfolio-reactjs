@@ -6,16 +6,21 @@ import {
   Navigate
 } from "react-router-dom";
 
-import { LandingPage, DashboardPage, OutletPage } from '../pages' 
+import { LandingPage, DashboardPage, OutletPage, LoginPage, RegisterPage } from '../pages' 
 import FullPage from '../Layout/FullPage'
+import Auth from '../Layout/Auth/index'
 
 export default function index() {
   return (
     <div>
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/main"/>}/>
-        <Route path="/main" element={<FullPage />} >
+        <Route path="/" element={<Navigate to="/auth/login"/> } />
+        <Route path="/auth" element={<Auth /> }>
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+        </Route>
+        <Route path="/main" element={<FullPage />}>
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="outlet" element={<OutletPage />} />
         </Route>

@@ -2,3 +2,7 @@
   height: 100vh;
   background-color: #B99976;
 }
+.wrapperMenuList{
+  height: 100vh;
+  overflow-y: auto;
+}

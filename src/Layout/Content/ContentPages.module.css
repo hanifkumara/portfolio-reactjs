@@ -1,9 +1,15 @@
+.container{
+  width: 100%;
+}
 .wrapperHeaderContent{
   padding: 0.7rem 1.9rem;
+  background-color: white;
 }
 .wrapperOutlet{
+  overflow-y: auto;
   background: #E9E9E9;
   padding: 1.3rem 1.9rem;
+  height: 100vh;
 }
 .wrapperPrefix{
   display: flex;

@@ -15,21 +15,198 @@ export default function AsideList({handleToggleAside}) {
       key: "outlet",
       path: "/main/outlet",
       name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
+    },
+    {
+      key: "dashboard",
+      path: "/main/dashboard",
+      name: "Dashboard"
+    },
+    {
+      key: "outlet",
+      path: "/main/outlet",
+      name: "Outlet"
     }
   ]
 
   return (
     <div className={styles.container}>
       <HeaderAside handleToggleAside={handleToggleAside}/>
-      <ul>
-        {listMenu.map(value =>
-          <li key={value.key}>
-            <NavLink to={value.path}>
-              {value.name}
-            </NavLink>
-          </li>
-        )}
-      </ul>
+      <div className={styles.wrapperMenuList}>
+        <ul>
+          {listMenu.map(value =>
+            <li key={value.key}>
+              <NavLink to={value.path}>
+                {value.name}
+              </NavLink>
+            </li>
+          )}
+        </ul>
+      </div>
     </div>
   )
 }

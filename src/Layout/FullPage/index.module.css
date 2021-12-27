@@ -2,17 +2,17 @@
   overflow: hidden;
 }
 .hide{
-  width: 50px;
+  width: 60px;
+  transition: 0.6s;
 }
 .show{
   width: 370px;
+  transition: 0.6s;
 }
 .containerAside{
-  overflow-y: auto;
   height: 100vh;
 }
 .containerContent{
   width: 100%;
   height: 100vh;
-  overflow-y: auto;
 }
