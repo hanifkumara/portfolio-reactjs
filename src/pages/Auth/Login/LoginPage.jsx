@@ -4,12 +4,13 @@ import {
   Button
 } from 'react-bootstrap'
 import styles from './LoginPage.module.css'
-import { Link } from 'react-router-dom'
-import { useFormik } from 'formik'
+import { Link, useNavigate } from 'react-router-dom'
+import { useFormik  } from 'formik'
 import * as Yup from "yup";
 
 
 export default function LoginPage() {
+  const navigate = useNavigate()
 
   const initialValuesLogin = {
     email: "",
@@ -33,7 +34,7 @@ export default function LoginPage() {
     initialValues: initialValuesLogin,
     validationSchema: validationSchemaLogin,
     onSubmit: (values, {resetForm}) => {
-      console.log("values", values)
+      navigate('/main/dashboard')
     }
   })
 
@@ -64,6 +65,7 @@ export default function LoginPage() {
               name="email"
               value={formikLogin.values.email}
               onChange={formikLogin.handleChange}
+              autoComplete='new-password'
             />
             {formikLogin.touched.email &&
             formikLogin.errors.email ? (

@@ -17,179 +17,9 @@ export default function AsideList({handleToggleAside}) {
       name: "Outlet"
     },
     {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
-    },
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
-    {
-      key: "outlet",
-      path: "/main/outlet",
-      name: "Outlet"
+      key: "product",
+      path: "/main/product",
+      name: "Product"
     }
   ]
 
@@ -197,15 +27,25 @@ export default function AsideList({handleToggleAside}) {
     <div className={styles.container}>
       <HeaderAside handleToggleAside={handleToggleAside}/>
       <div className={styles.wrapperMenuList}>
-        <ul>
-          {listMenu.map(value =>
-            <li key={value.key}>
-              <NavLink to={value.path}>
-                {value.name}
-              </NavLink>
-            </li>
+        <div className="d-flex flex-column
+        ">
+          {listMenu.map((value, index) =>
+            <NavLink className={(nav) => nav.isActive ? styles.active : ''} to={value.path} key={index}>
+              <div className={styles.list} key={value.key}>
+                  {value.name}
+              </div>
+            </NavLink>
           )}
-        </ul>
+        </div>
+        {/* <ul className={styles.uList}>
+          {listMenu.map((value, index) =>
+            <NavLink className={styles.navLink} to={value.path} key={index}>
+              <li className={styles.list} key={value.key}>
+                  {value.name}
+              </li>
+            </NavLink>
+          )}
+        </ul> */}
       </div>
     </div>
   )

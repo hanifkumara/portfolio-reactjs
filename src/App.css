@@ -71,6 +71,12 @@ h1{
 /* End Styling Scrollbar */
 
 /* Start Global Styling */
+a {
+  text-decoration: none !important;
+}
+ul{
+  list-style:none;
+}
 .auth-title{
   font-size: 2rem;
   font-weight: 700;
