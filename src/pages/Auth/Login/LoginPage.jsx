@@ -96,7 +96,7 @@ export default function LoginPage() {
           </Form.Group> */}
 
           <div className="d-flex justify-content-between mb-2">
-            <div className={`${styles.button } text-muted`}>Forgot Password?</div>
+            <div className={`${styles.button} ${styles.forgotPassword} text-muted`}>Forgot Password?</div>
             <Link to="/auth/register">
               <div className={`${styles.button} text-primary`}>Don't Have Account? Signup</div>
             </Link>

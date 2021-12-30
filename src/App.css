@@ -1,8 +1,8 @@
 body{
   overflow-x: hidden;
+  font-size: 1.4em;
   /* font-family: Georgia, serif; */
 }
-
 h1{
   margin: 0;
   padding: 0

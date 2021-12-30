@@ -14,3 +14,8 @@
 .button:hover{
   transform: scale(1.02);
 }
+@media screen and (max-width: 576px) {
+  .button{
+    font-size: 12px;
+  }
+}
