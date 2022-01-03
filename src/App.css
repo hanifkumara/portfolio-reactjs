@@ -71,6 +71,18 @@ h1{
 /* End Styling Scrollbar */
 
 /* Start Global Styling */
+.dropzone{
+  height: 100%;
+  width: 100%;
+  border: 0.4px solid grey;
+  border-style: dashed;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 a {
   text-decoration: none !important;
 }

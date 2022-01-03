@@ -17,7 +17,7 @@ export default function LoginPage() {
     password: ""
   }
 
-  const validationSchemaLogin = Yup.object({
+  const validationSchemaLogin = Yup.object().shape({
     email: Yup.string()
       .email('Invalid Format Email')
       .required('Please Input Email'),

@@ -81,7 +81,7 @@ export default function AddProductPage() {
           <Form.Label>
             Product Image
           </Form.Label>
-          <div {...getRootProps()} className={styles.dropzone}>
+          <div {...getRootProps()} className='dropzone'>
             {!photoPreview ? (
               <>
                 <input {...getInputProps()} />

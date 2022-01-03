@@ -1,12 +1,23 @@
-import { Paper } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
+import { Tabs, Tab } from "react-bootstrap";
+
+import OutletTab from './OutletTab/OutletTab'
 
 export default function OutletPage() {
+  const [tabs, setTabs] = useState("outlet")
+
   return (
     <div>
-      <Paper elevation={2} className='px-3 py-2'>
-        <h1>This is Outlet Page</h1>
-      </Paper>
+      <Tabs activeKey={tabs} onSelect={(v) => setTabs(v)}>
+        <Tab eventKey="outlet" title="Outlet">
+          <OutletTab/>
+        </Tab>
+
+        {/* <Tab eventKey="category" title="Category">
+          <ProductCategoryTab/>
+        </Tab>  */}
+
+      </Tabs>
     </div>
   )
 }

@@ -20,6 +20,11 @@ export default function AsideList({handleToggleAside}) {
       key: "product",
       path: "/main/product",
       name: "Product"
+    },
+    {
+      key: "inventory",
+      path: "/main/inventory",
+      name: "Inventory"
     }
   ]
 
