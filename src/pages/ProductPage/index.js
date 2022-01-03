@@ -1,2 +1,4 @@
 import ProductPage from "./ProductPage";
-export { ProductPage }
+import AddProductPage from './ProductTab/AddProductPage'
+
+export { ProductPage, AddProductPage }
