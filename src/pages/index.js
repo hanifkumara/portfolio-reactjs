@@ -4,7 +4,8 @@ import { OutletPage, AddOutletPage } from './OutletPage/index.js'
 import { LoginPage, RegisterPage } from './Auth'
 import { ErrorPage } from './ErrorPage'
 import { ProductPage, AddProductPage } from './ProductPage'
-import { InventoryPage } from './InventoryPage'
+import { InventoryPage, IncomingStockPage, OutcomingStockPage } from './InventoryPage'
+import { AssemblyPage } from './AssemblyPage'
 
 export { 
   LandingPage, 
@@ -16,5 +17,8 @@ export {
   ProductPage, 
   AddProductPage,
   AddOutletPage,
-  InventoryPage
+  InventoryPage,
+  IncomingStockPage,
+  OutcomingStockPage,
+  AssemblyPage
 }

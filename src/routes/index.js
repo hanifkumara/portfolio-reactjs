@@ -16,7 +16,10 @@ import {
   ProductPage, 
   AddProductPage,
   AddOutletPage,
-  InventoryPage
+  InventoryPage,
+  IncomingStockPage,
+  OutcomingStockPage,
+  AssemblyPage
 } from '../pages' 
 import FullPage from '../Layout/FullPage'
 import Auth from '../Layout/Auth/index'
@@ -38,6 +41,9 @@ export default function index() {
           <Route path="product" element={<ProductPage />} />
           <Route path="product/add" element={<AddProductPage />} />
           <Route path="inventory" element={<InventoryPage />} />
+          <Route path="inventory/incoming-stock" element={<IncomingStockPage />} />
+          <Route path="inventory/outcoming-stock" element={<OutcomingStockPage />} />
+          <Route path="assembly" element={<AssemblyPage />} />
         </Route>
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="*" element={<ErrorPage />} />

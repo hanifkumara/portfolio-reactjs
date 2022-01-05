@@ -25,6 +25,11 @@ export default function AsideList({handleToggleAside}) {
       key: "inventory",
       path: "/main/inventory",
       name: "Inventory"
+    },
+    {
+      key: "assembly",
+      path: "/main/assembly",
+      name: "Assembly"
     }
   ]
 
@@ -32,8 +37,7 @@ export default function AsideList({handleToggleAside}) {
     <div className={styles.container}>
       <HeaderAside handleToggleAside={handleToggleAside}/>
       <div className={styles.wrapperMenuList}>
-        <div className="d-flex flex-column
-        ">
+        <div className="d-flex flex-column">
           {listMenu.map((value, index) =>
             <NavLink className={(nav) => nav.isActive ? styles.active : ''} to={value.path} key={index}>
               <div className={styles.list} key={value.key}>

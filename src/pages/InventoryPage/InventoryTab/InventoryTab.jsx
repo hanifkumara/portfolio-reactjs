@@ -105,12 +105,16 @@ export default function InventoryTab() {
         <div className="d-flex justify-content-between my-3">
           <h4>List Inventory</h4>
           <div className='d-flex'>
-            <div className="btn btn-primary">
-              Incoming Stock
-            </div>
-            <div className="btn btn-primary ms-2">
-              Outcoming Stock
-            </div>
+            <Link to='incoming-stock'>
+              <div className="btn btn-primary">
+                Incoming Stock
+              </div>
+            </Link>
+            <Link to='outcoming-stock'>
+              <div className="btn btn-primary ms-2">
+                Outcoming Stock
+              </div>
+            </Link>
           </div>
         </div>
         <hr />
