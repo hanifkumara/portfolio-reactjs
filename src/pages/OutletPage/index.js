@@ -1,3 +1,4 @@
 import OutletPage from './OutletPage'
+import AddOutletPage from './OutletTab/AddOutletPage'
 
-export { OutletPage }
+export { OutletPage, AddOutletPage }

@@ -9,7 +9,6 @@ export default function ProductPage() {
 
   return (
     <div>
-      <hr/>
       <Tabs activeKey={tabs} onSelect={(v) => setTabs(v)}>
         <Tab eventKey="product" title="Product">
           <ProductTab/>

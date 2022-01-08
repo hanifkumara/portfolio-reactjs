@@ -1,35 +1,44 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Paper } from '@mui/material'
-import { Search } from '@mui/icons-material'
-import { Row, Col, InputGroup, Form } from 'react-bootstrap'
 import DataTable from 'react-data-table-component'
 import { Link } from 'react-router-dom'
+import {
+  Row,
+  Col,
+  InputGroup,
+  Form
+} from 'react-bootstrap'
+import { Search } from '@mui/icons-material'
 
-export default function ProductTab() {
+export default function OutcomingStockPage() {
 
   const [dataTable, setDataTable] = useState([])
-  
   const columns = [
     {
       name: 'No',
-      selector: row => row.no,
       width: '70px',
-      sortable: true
+      sortable: true,
+      selector: (row) => row.no
     },
     {
-      name: 'Name',
-      selector: row => row.name,
-      sortable: true
+      name: 'Code Number',
+      sortable: true,
+      selector: (row) => row.code_number
     },
     {
       name: 'Outlet',
-      selector: row => row.outlet,
-      sortable: true
+      sortable: true,
+      selector: (row) => row.outlet
     },
     {
-      name: 'Price',
-      selector: row => row.price,
-      sortable: true
+      name: 'Date',
+      sortable: true,
+      selector: (row) => row.date
+    },
+    {
+      name: 'Status',
+      sortable: true,
+      selector: (row) => row.status
     }
   ]
 
@@ -37,30 +46,33 @@ export default function ProductTab() {
     const data = [
       {
         id: 1,
-        outlet: 'Hanif Store',
-        name: 'Rawon Daging Sapi Spesial',
-        price: 'Rp. 15.000'
+        code_number: 'OUT000001',
+        outlet: 'Kumara Outlet',
+        date: '12 Juni 2022',
+        status: 'Done'
       },
       {
         id: 2,
-        outlet: 'Hanif Store',
-        name: 'Mie Bakso Urat ',
-        price: 'Rp. 25.000'
+        code_number: 'OUT000002',
+        outlet: 'Hanif Outlet',
+        date: '8 September 2022',
+        status: 'Done'
       },
       {
         id: 3,
-        outlet: 'Kumara Store',
-        name: 'Martabak Telor Jumbo',
-        price: 'Rp. 45.000'
+        code_number: 'OUT000003',
+        outlet: 'Kumara Outlet',
+        date: '19 Oktober 2022',
+        status: 'Pending'
       }
     ]
+
     const result = []
     data.map((value, index) => {
       result.push({
         ...value,
         no: index + 1
       })
-      return true
     })
     setDataTable(result)
   }
@@ -73,12 +85,14 @@ export default function ProductTab() {
     <div>
       <Paper elevation={2} className='px-3 py-2'>
         <div className="d-flex justify-content-between my-3">
-          <h4>List Product</h4>
-          <Link to="add">
-            <div className="btn btn-primary">
-              Add Product
-            </div>
-          </Link>
+          <h4>Outcoming Stock</h4>
+          <div className='d-flex'>
+            <Link to='/main/inventory'>
+              <div className="btn btn-primary">
+                Back to Main
+              </div>
+            </Link>
+          </div>
         </div>
         <hr />
         <Row>
@@ -93,10 +107,9 @@ export default function ProductTab() {
             </InputGroup>
           </Col>
         </Row>
-        <hr />
-        <DataTable
-          columns={columns}
+        <DataTable 
           data={dataTable}
+          columns={columns}
         />
       </Paper>
     </div>
