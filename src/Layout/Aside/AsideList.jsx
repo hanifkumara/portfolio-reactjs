@@ -30,6 +30,11 @@ export default function AsideList({handleToggleAside}) {
       key: "assembly",
       path: "/main/assembly",
       name: "Assembly"
+    },
+    {
+      key: "account",
+      path: "/main/account",
+      name: "Account"
     }
   ]
 

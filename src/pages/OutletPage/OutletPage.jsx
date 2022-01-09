@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Tabs, Tab } from "react-bootstrap";
 
 import OutletTab from './OutletTab/OutletTab'
+import OrderManagementTab from './OrderManagementTab/OrderManagementTab'
 
 export default function OutletPage() {
   const [tabs, setTabs] = useState("outlet")
@@ -13,9 +14,9 @@ export default function OutletPage() {
           <OutletTab/>
         </Tab>
 
-        {/* <Tab eventKey="category" title="Category">
-          <ProductCategoryTab/>
-        </Tab>  */}
+        <Tab eventKey="order-management" title="Order Management">
+          <OrderManagementTab/>
+        </Tab> 
 
       </Tabs>
     </div>

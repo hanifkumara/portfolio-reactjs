@@ -19,7 +19,8 @@ import {
   InventoryPage,
   IncomingStockPage,
   OutcomingStockPage,
-  AssemblyPage
+  AssemblyPage,
+  AccountPage
 } from '../pages' 
 import FullPage from '../Layout/FullPage'
 import Auth from '../Layout/Auth/index'
@@ -44,6 +45,7 @@ export default function index() {
           <Route path="inventory/incoming-stock" element={<IncomingStockPage />} />
           <Route path="inventory/outcoming-stock" element={<OutcomingStockPage />} />
           <Route path="assembly" element={<AssemblyPage />} />
+          <Route path="account" element={<AccountPage />} />
         </Route>
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="*" element={<ErrorPage />} />

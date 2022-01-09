@@ -6,6 +6,7 @@ import { ErrorPage } from './ErrorPage'
 import { ProductPage, AddProductPage } from './ProductPage'
 import { InventoryPage, IncomingStockPage, OutcomingStockPage } from './InventoryPage'
 import { AssemblyPage } from './AssemblyPage'
+import { AccountPage } from './AccountPage'
 
 export { 
   LandingPage, 
@@ -20,5 +21,6 @@ export {
   InventoryPage,
   IncomingStockPage,
   OutcomingStockPage,
-  AssemblyPage
+  AssemblyPage,
+  AccountPage
 }
