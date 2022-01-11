@@ -75,7 +75,7 @@ export default function ProductTab() {
         <div className="d-flex justify-content-between my-3">
           <h4>List Product</h4>
           <Link to="add">
-            <div className="btn btn-primary">
+            <div className="btn btn-outline-primary">
               Add Product
             </div>
           </Link>

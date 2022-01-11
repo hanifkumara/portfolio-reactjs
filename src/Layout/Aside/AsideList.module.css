@@ -1,24 +1,34 @@
 .container{
   height: 100vh;
-  background-color: #B99976;
+  background-color: white;
 }
 .wrapperMenuList{
   height: 100vh;
   overflow-y: auto;
+  padding: 0 20px;
 }
 .uList{
   width: 100%;
   padding: 0;
 }
-.list{
+.list, .active{
+  margin: 10px 0;
+  border-radius: 7px;
   width: 100%;
-  color: black;
-  padding: 12px 20px;
+  padding: 12px 13px;
 }
 .list:hover{
   transform: scale(1.01);
-  background-color: #886b4d;
+  background-color: #6B4EFF;
+  color: white !important;
 }
 .active{
-  background-color: #a87e52;
+  background-color: #7a5fff;
+  color: white !important;
+}
+.hideMenuList{
+  padding: 0 10px;
+}
+.charAtMenu{
+  font-weight: 700;
 }

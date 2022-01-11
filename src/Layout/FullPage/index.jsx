@@ -16,6 +16,7 @@ export default function Index() {
       <div className={`${hide ? styles.hide : styles.show} ${styles.containerAside}`}>
         <AsideList 
           handleToggleAside={handleToggleAside} 
+          hide={hide}
         />
       </div>
       <div className={styles.containerContent}>

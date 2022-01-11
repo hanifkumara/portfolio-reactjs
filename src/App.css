@@ -7,7 +7,9 @@ h1{
   margin: 0;
   padding: 0
 }
-
+a{
+  color: black !important;
+}
 .App {
   text-align: center;
 }
@@ -51,6 +53,7 @@ h1{
 /* width */
 ::-webkit-scrollbar {
   width: 0.4rem;
+  height: 0.4rem;
 }
 
 /* Track */
@@ -60,13 +63,13 @@ h1{
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #62411F; 
+  background: #6B4EFF; 
   border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #855439; 
+  background: #6648fd; 
 }
 /* End Styling Scrollbar */
 

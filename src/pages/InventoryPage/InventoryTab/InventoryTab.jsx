@@ -106,12 +106,12 @@ export default function InventoryTab() {
           <h4>List Inventory</h4>
           <div className='d-flex'>
             <Link to='incoming-stock'>
-              <div className="btn btn-primary">
+              <div className="btn btn-outline-primary">
                 Incoming Stock
               </div>
             </Link>
             <Link to='outcoming-stock'>
-              <div className="btn btn-primary ms-2">
+              <div className="btn btn-outline-primary ms-2">
                 Outcoming Stock
               </div>
             </Link>

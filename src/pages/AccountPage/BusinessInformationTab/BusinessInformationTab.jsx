@@ -23,7 +23,7 @@ export default function BusinessInformationTab() {
         <div className="d-flex justify-content-between my-3">
           <h4>Business Information</h4>
           <div>
-            <div className="btn btn-primary" onClick={() => handleEventEdit(!eventEdit)}>
+            <div className="btn btn-outline-primary" onClick={() => handleEventEdit(!eventEdit)}>
               {eventEdit ? 'Cancel' : 'Update'}
             </div>
             {eventEdit ? (

@@ -104,7 +104,7 @@ export default function RawMaterialTab() {
         <div className="d-flex justify-content-between my-3">
           <h4>Raw Material</h4>
           <div className='d-flex'>
-            <div className="btn btn-primary" onClick={handleOpenModalAddRawMaterial}>
+            <div className="btn btn-outline-primary" onClick={handleOpenModalAddRawMaterial}>
               Add Raw Material
             </div>
           </div>

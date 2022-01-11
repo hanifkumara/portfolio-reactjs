@@ -95,7 +95,7 @@ export default function IncomingStockPage() {
           <h4>Incoming Stock</h4>
           <div className='d-flex'>
             <Link to='/main/inventory'>
-              <div className="btn btn-primary">
+              <div className="btn btn-outline-primary">
                 Back to Main
               </div>
             </Link>

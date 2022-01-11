@@ -105,7 +105,7 @@ export default function OrderManagementTab() {
         <div className="d-flex justify-content-between my-3">
           <h4>Order Management</h4>
           <div className='d-flex'>
-            <div className="btn btn-primary" onClick={handleOpenModalAddOrderManagement}>
+            <div className="btn btn-outline-primary" onClick={handleOpenModalAddOrderManagement}>
               Add Order Management
             </div>
           </div>

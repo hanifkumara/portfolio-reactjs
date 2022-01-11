@@ -49,11 +49,11 @@ export default function AddProductPage() {
           <h4>Add Product</h4>
           <div className='d-flex'>
             <Link to="/main/product">
-              <div className="btn btn-secondary">
+              <div className="btn btn-outline-secondary">
                 Cancel
               </div>
             </Link>
-            <div className="btn btn-primary ms-2">
+            <div className="btn btn-outline-primary ms-2">
               Save
             </div>
           </div>

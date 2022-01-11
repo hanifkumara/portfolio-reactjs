@@ -3,7 +3,7 @@ import styles from './AsideList.module.css'
 import HeaderAside from '../Components/HeaderAside'
 import { NavLink } from 'react-router-dom'
 
-export default function AsideList({handleToggleAside}) {
+export default function AsideList({handleToggleAside, hide}) {
 
   const listMenu = [
     {
@@ -41,13 +41,11 @@ export default function AsideList({handleToggleAside}) {
   return (
     <div className={styles.container}>
       <HeaderAside handleToggleAside={handleToggleAside}/>
-      <div className={styles.wrapperMenuList}>
+      <div className={`${styles.wrapperMenuList} ${styles.hideMenuList}`}>
         <div className="d-flex flex-column">
           {listMenu.map((value, index) =>
-            <NavLink className={(nav) => nav.isActive ? styles.active : ''} to={value.path} key={index}>
-              <div className={styles.list} key={value.key}>
-                  {value.name}
-              </div>
+            <NavLink className={(nav) => nav.isActive ? styles.active : styles.list} to={value.path} key={index}>
+              {hide ?  (<div className={styles.charAtMenu}>{value.name.charAt(0)}</div>) : value.name}
             </NavLink>
           )}
         </div>

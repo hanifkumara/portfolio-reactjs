@@ -80,7 +80,7 @@ export default function ProductCategoryTab() {
       <Paper elevation={2} className='px-3 py-2'>
         <div className="d-flex justify-content-between my-3">
           <h4>List Category</h4>
-          <div className="btn btn-primary" onClick={() => handleOpenModalAddCateogry()}>
+          <div className="btn btn-outline-primary" onClick={() => handleOpenModalAddCateogry()}>
             Add Category
           </div>
         </div>
