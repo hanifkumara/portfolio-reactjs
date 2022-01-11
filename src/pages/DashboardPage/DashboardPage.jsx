@@ -11,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import styles from './DashboardPage.module.css'
 
 ChartJS.register(
   CategoryScale,
@@ -56,7 +57,9 @@ export default function DashboardPage() {
     <div>
       <Paper elevation={2} className='px-3 py-2'>
         <h1>This is Dashboard Page</h1>
-        <Line options={options} data={data} />;
+        <div className={styles.wrapperChart}>
+          <Line options={options} data={data} />;
+        </div>
       </Paper>
       <Paper elevation={2} className='mt-4 px-3 py-2'>
         <h1>This is Dashboard Page</h1>

@@ -1,9 +1,10 @@
 import { borderRadius, flexbox, height } from '@mui/system'
 import React, { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import styles from './ContentPages.module.css'
 
 export default function ContentPages() {
+  const navigate = useNavigate()
   const [prefix, setPrefix] = useState("")
   const [showDropdown, setShowDropdown] = useState(false)
   const fullName = 'Hanif Kumara'
@@ -12,6 +13,10 @@ export default function ContentPages() {
   }
 
   const handleSetDropdown = () => setShowDropdown(!showDropdown)
+
+  const handleLogout = () => {
+    navigate('/auth')
+  }
 
   useEffect(() => {
     handlePrefixName()
@@ -41,7 +46,7 @@ export default function ContentPages() {
                 <span className={styles.prefix}>H</span> <span className={styles.fullname}>{fullName}</span>
               </div>
               <div className={styles.dropdownBottom}>
-                <div className="btn btn-outline-primary">
+                <div className="btn btn-outline-primary" onClick={handleLogout}>
                   Logout
                 </div>
               </div>

@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ImageAuth from '../../assets/images/scott-graham-5fNmWej4tAA-unsplash.jpg'
 import styles from './index.module.css'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 export default function Index() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    navigate('/auth/login')
+  }, [navigate])
+
   return (
     <div>
       <div className={styles.wrapperSide}>
