@@ -8,10 +8,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useFormik  } from 'formik'
 import * as Yup from "yup";
 
-
 export default function LoginPage() {
   const navigate = useNavigate()
-
   const initialValuesLogin = {
     email: "",
     password: ""
