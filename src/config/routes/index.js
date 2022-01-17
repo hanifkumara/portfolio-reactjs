@@ -21,9 +21,10 @@ import {
   OutcomingStockPage,
   AssemblyPage,
   AccountPage
-} from '../pages' 
-import FullPage from '../Layout/FullPage'
-import Auth from '../Layout/Auth/index'
+} from '../../pages' 
+import FullPage from '../../Layout/FullPage'
+import Auth from '../../Layout/Auth/index'
+import DevPage from '../../pages/Dev/DevPage';
 
 export default function index() {
   return (
@@ -48,6 +49,7 @@ export default function index() {
           <Route path="account" element={<AccountPage />} />
         </Route>
         <Route path="/landing-page" element={<LandingPage />} />
+        <Route path="/dev-page" element={<DevPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
