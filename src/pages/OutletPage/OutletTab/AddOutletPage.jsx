@@ -44,7 +44,7 @@ export default function AddOutletPage() {
 
   return (
     <div>
-      <Paper elevation={2} className='px-3 py-2'>
+      <Paper elevation={0} className='px-3 py-2'>
         <div className="d-flex justify-content-between">
           <h4>Add Outlet</h4>
           <div className='d-flex'>
