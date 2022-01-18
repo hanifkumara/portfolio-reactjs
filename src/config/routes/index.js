@@ -25,6 +25,8 @@ import {
 import FullPage from '../../Layout/FullPage'
 import Auth from '../../Layout/Auth/index'
 import DevPage from '../../pages/Dev/DevPage';
+
+import AuthRoute from './AuthRoute'
 import ProtectedRoute from './ProtectedRoute'
 
 export default function index() {
@@ -33,9 +35,11 @@ export default function index() {
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/auth/login"/> } />
-        <Route path="/auth" element={<Auth /> }>
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
+        <Route element={<AuthRoute />}>
+          <Route path="/auth" element={<Auth /> }>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+          </Route>
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/main" element={<FullPage />}>
