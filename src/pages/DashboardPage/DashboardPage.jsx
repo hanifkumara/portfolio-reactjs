@@ -55,13 +55,13 @@ export default function DashboardPage() {
   };
   return (
     <div>
-      <Paper elevation={2} className='px-3 py-2'>
+      <Paper elevation={0} className='px-3 py-2'>
         <h1>This is Dashboard Page</h1>
         <div className={styles.wrapperChart}>
           <Line options={options} data={data} />;
         </div>
       </Paper>
-      <Paper elevation={2} className='mt-4 px-3 py-2'>
+      <Paper elevation={0} className='mt-4 px-3 py-2'>
         <h1>This is Dashboard Page</h1>
       </Paper>
     </div>

@@ -19,7 +19,7 @@ export default function BusinessInformationTab() {
 
   return (
     <div>
-      <Paper elevation={2} className='px-3 py-2'>
+      <Paper elevation={0} className='px-3 py-2'>
         <div className="d-flex justify-content-between my-3">
           <h4>Business Information</h4>
           <div>

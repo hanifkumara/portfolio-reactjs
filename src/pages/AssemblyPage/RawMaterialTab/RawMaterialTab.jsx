@@ -100,7 +100,7 @@ export default function RawMaterialTab() {
         show={showModalAddRawMaterial}
         handleClose={handleCloseModalAddRawMaterial}
       />
-      <Paper elevation={2} className='px-3 py-2'>
+      <Paper elevation={0} className='px-3 py-2'>
         <div className="d-flex justify-content-between my-3">
           <h4>Raw Material</h4>
           <div className='d-flex'>
