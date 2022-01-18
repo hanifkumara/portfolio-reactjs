@@ -8,9 +8,11 @@ import {
 } from 'react-bootstrap'
 import { useDropzone } from 'react-dropzone'
 import styles from '../OutletPage.module.css'
+import axios from 'axios'
 
 export default function AddOutletPage() {
   const [photoPreview, setPhotoPreview] = useState('')
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const selectStatus = [
     {
@@ -42,6 +44,15 @@ export default function AddOutletPage() {
     }
   })
 
+  const handleSave = async () => {
+    try {
+      const { data } = await axios.post(`${API_URL}/api/v1/outlet`)
+      console.log(data.salto.salto.salto)
+    } catch (error) {
+      console.log("error", error.response)
+    }
+  }
+
   return (
     <div>
       <Paper elevation={2} className='px-3 py-2'>
@@ -53,7 +64,7 @@ export default function AddOutletPage() {
                 Cancel
               </div>
             </Link>
-            <div className="btn btn-outline-primary ms-2">
+            <div className="btn btn-outline-primary ms-2" onClick={handleSave}>
               Save
             </div>
           </div>

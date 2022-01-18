@@ -7,9 +7,12 @@ import styles from './LoginPage.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useFormik  } from 'formik'
 import * as Yup from "yup";
+import axios from 'axios'
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const initialValuesLogin = {
     email: "",
     password: ""
@@ -31,8 +34,17 @@ export default function LoginPage() {
     enableReinitialize: true,
     initialValues: initialValuesLogin,
     validationSchema: validationSchemaLogin,
-    onSubmit: (values, {resetForm}) => {
-      navigate('/main/dashboard')
+    onSubmit: async (values, {resetForm}) => {
+      try {
+        const { data } = await axios.post(`${API_URL}/api/v1/auth/login-business-account`, {
+          email: values.email,
+          password: values.password
+        })
+        localStorage.setItem('token', data.data.token)
+        navigate('/main/dashboard')
+      } catch (error) {
+        console.log(error)
+      }
     }
   })
 

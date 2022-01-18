@@ -2,7 +2,6 @@ import Router from './config/routes'
 import './App.css'
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
-
 import store from './config/redux/store'
 
 function App() {
