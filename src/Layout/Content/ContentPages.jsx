@@ -15,6 +15,7 @@ export default function ContentPages() {
   const handleSetDropdown = () => setShowDropdown(!showDropdown)
 
   const handleLogout = () => {
+    localStorage.clear()
     navigate('/auth')
   }
 
