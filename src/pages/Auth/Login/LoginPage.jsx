@@ -36,11 +36,11 @@ export default function LoginPage() {
     validationSchema: validationSchemaLogin,
     onSubmit: async (values, {resetForm}) => {
       try {
-        const { data } = await axios.post(`${API_URL}/api/v1/auth/login-business-account`, {
-          email: values.email,
-          password: values.password
-        })
-        localStorage.setItem('token', data.data.token)
+        // const { data } = await axios.post(`${API_URL}/api/v1/auth/login-business-account`, {
+        //   email: values.email,
+        //   password: values.password
+        // })
+        localStorage.setItem('token', 'asldjh123098aslkj')
         navigate('/main/dashboard')
       } catch (error) {
         console.log(error)
