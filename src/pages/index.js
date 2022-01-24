@@ -7,6 +7,7 @@ import { ProductPage, AddProductPage } from './ProductPage'
 import { InventoryPage, IncomingStockPage, OutcomingStockPage } from './InventoryPage'
 import { AssemblyPage } from './AssemblyPage'
 import { AccountPage } from './AccountPage'
+import VerifyEmailPage from './VerifyEmailPage/VerifyEmailPage'
 
 export { 
   LandingPage, 
@@ -22,5 +23,6 @@ export {
   IncomingStockPage,
   OutcomingStockPage,
   AssemblyPage,
-  AccountPage
+  AccountPage,
+  VerifyEmailPage
 }

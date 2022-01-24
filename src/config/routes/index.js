@@ -20,7 +20,8 @@ import {
   IncomingStockPage,
   OutcomingStockPage,
   AssemblyPage,
-  AccountPage
+  AccountPage,
+  VerifyEmailPage
 } from '../../pages' 
 import FullPage from '../../Layout/FullPage'
 import Auth from '../../Layout/Auth/index'
@@ -33,6 +34,7 @@ export default function index() {
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/auth/login"/> } />
+        <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
         <Route path="/auth" element={<Auth /> }>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
