@@ -36,18 +36,10 @@ export default function index() {
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/auth/login"/> } />
-<<<<<<< HEAD
         <Route path="/verify-email/:token" element={<VerifyEmailPage />} />
         <Route path="/auth" element={<Auth /> }>
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-=======
-        <Route element={<AuthRoute />}>
-          <Route path="/auth" element={<Auth /> }>
-            <Route path="login" element={<LoginPage />} />
-            <Route path="register" element={<RegisterPage />} />
-          </Route>
->>>>>>> 968e3ee81c591e3ffa6d1091d19200417e41c519
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/main" element={<FullPage />}>
