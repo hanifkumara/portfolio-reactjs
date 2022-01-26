@@ -7,7 +7,7 @@ import { ProductPage, AddProductPage } from './ProductPage'
 import { InventoryPage, IncomingStockPage, OutcomingStockPage } from './InventoryPage'
 import { AssemblyPage } from './AssemblyPage'
 import { AccountPage } from './AccountPage'
-import VerifyEmailPage from './VerifyEmailPage/VerifyEmailPage'
+import VerifyEmailPage from './VerifyEmailPage/VerifyEmailPage.jsx'
 
 export { 
   LandingPage, 

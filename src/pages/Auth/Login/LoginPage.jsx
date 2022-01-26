@@ -8,7 +8,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useFormik  } from 'formik'
 import * as Yup from "yup";
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
 
+toast.configure()
 export default function LoginPage() {
   const navigate = useNavigate()
   const API_URL = process.env.REACT_APP_API_URL;
@@ -36,12 +38,25 @@ export default function LoginPage() {
     validationSchema: validationSchemaLogin,
     onSubmit: async (values, {resetForm}) => {
       try {
-        // const { data } = await axios.post(`${API_URL}/api/v1/auth/login-business-account`, {
-        //   email: values.email,
-        //   password: values.password
-        // })
-        localStorage.setItem('token', 'asldjh123098aslkj')
-        navigate('/main/dashboard')
+        const { data } = await axios.post(`${API_URL}/api/v1/auth/login-business-account`, {
+          email: values.email,
+          password: values.password
+        })
+        console.log("response login", data.data)
+        if(!data.data.isVerified){
+          toast.error('Your account is not verified', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        } else {
+          localStorage.setItem('token', data.data.token)
+          navigate('/main/dashboard')
+        }
       } catch (error) {
         console.log(error)
       }

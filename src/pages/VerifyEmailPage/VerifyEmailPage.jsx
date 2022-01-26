@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import TickImage from '../../assets/images/output-onlinepngtools.png'
+import styles from './VerifyEmailPage.module.css'
 
 export default function VerifyEmail() {
   const [response, setResponse] = useState({
@@ -31,7 +33,19 @@ export default function VerifyEmail() {
     <div>
       {response.status ? (
         <div>
-          <div className={response.message === 'success' ? 'text-success' : 'text-danger'}>{response.message}</div>
+          <div>
+            <div className={styles.container}>
+              <div className={styles.wrapperContent}>
+                <h2>Verify Account Successfuly</h2>
+                <div className={styles.wrapperImage}>
+                  <img src={TickImage} alt="Tick" />                
+                </div>
+                <Link to="/auth/login">
+                  <div className='btn btn-outline-primary'>Login Now</div>
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       ) : null}
     </div>

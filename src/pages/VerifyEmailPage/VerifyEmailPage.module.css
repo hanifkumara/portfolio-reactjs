@@ -1,0 +1,33 @@
+.container{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapperContent{
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.wrapperImage {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+}
+.wrapperImage > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+@media screen and (max-width: 768px) {
+  .wrapperContent{
+    width: 80%;
+  }
+}
+@media screen and (max-width: 435px) {
+  .wrapperContent{
+    width: 90%;
+  }
+}
