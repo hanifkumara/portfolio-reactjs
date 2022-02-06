@@ -16,7 +16,7 @@ export default function ContentPages() {
 
   const handleLogout = () => {
     localStorage.clear()
-    navigate('/auth')
+    navigate('/auth/login')
   }
 
   useEffect(() => {
