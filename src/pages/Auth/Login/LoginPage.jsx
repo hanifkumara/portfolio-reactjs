@@ -37,7 +37,7 @@ export default function LoginPage() {
     try {
       setLoadingModal(true)
       const {data} = await axios.post(`${API_URL}/api/v1/send-email`, {to, businessId})
-      Toast('success', `Account verification link has been successfully sent to your email ${to}`, 10000)
+      // Toast('success', `Account verification link has been successfully sent to your email ${to}`, 10000)
       console.log("response send email", data.data)
       setLoadingModal(false)
     } catch (error) {

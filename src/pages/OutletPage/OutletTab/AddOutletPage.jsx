@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Paper } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { fabClasses, Paper } from '@mui/material'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   Row,
   Col,
@@ -9,21 +9,111 @@ import {
 import { useDropzone } from 'react-dropzone'
 import styles from '../OutletPage.module.css'
 import axios from 'axios'
+import { getAllOutlet } from '../../../config/redux/actions/outlet'
+
+import { useFormik } from 'formik'
+import * as Yup from "yup";
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
 
 export default function AddOutletPage() {
-  const [photoPreview, setPhotoPreview] = useState('')
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const API_URL = process.env.REACT_APP_API_URL;
 
-  const selectStatus = [
-    {
-      key: 'active',
-      label: 'Active'
-    },
-    {
-      key: 'inactive',
-      label: 'Inactive'
+  const [photoPreview, setPhotoPreview] = useState('')
+  const [photo, setPhoto] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const Toast = (status, message, autoClose= 5000) => {
+    if(status === 'success') {
+      return toast.success(message, {
+        position: "top-right",
+        autoClose,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      return toast.error(message, {
+        position: "top-right",
+        autoClose,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-  ]
+  }
+
+  const initialValuesOutlet = {
+    businessId: '',
+    name: '',
+    phoneNumber: '',
+    address:'',
+    status: 'active',
+    image: ''
+  }
+
+  const validationSchemaOutlet = Yup.object().shape({
+    name: Yup.string()
+      .required('Please Input Outlet Name'),
+    phoneNumber: Yup.string()
+      .min(3, "Minimal characters 3")
+      .max(15, "Can't be more than 15 characters")
+      .required('Please Input Phone Number'),
+    address: Yup.string()
+      .min(3, "Minimal characters 3")
+      .max(150, "Can't be more than 150 characters")
+      .required('Please Input Address'),
+  })
+
+  const formikAddOutlet = useFormik({
+    enableReinitialize: true,
+    initialValues: initialValuesOutlet,
+    validationSchema: validationSchemaOutlet,
+    onSubmit: async (values, {resetForm}) => {
+      try {
+        setLoading(true)
+        console.log("values", values)
+        const formData = new FormData()
+        formData.append("name", values.name);
+        formData.append("address", values.address);
+        formData.append("phoneNumber", values.phoneNumber);
+        formData.append("image", photo);
+        if(values.status === 'active') {
+          formData.append("status", 1);
+        } else {
+          formData.append("status", 0);
+        }
+        await axios.post(`${API_URL}/api/v1/outlet`, formData)
+        dispatch(getAllOutlet())
+        setTimeout(() => {
+          Toast('success', 'Successfully added Outlets', 3500)
+          resetForm()
+          setLoading(false)
+          navigate('/main/outlet')
+        }, 500);
+      } catch (error) {
+        Toast('error', error.response.data.err.message, 3000)
+        setLoading(false)
+        console.log(error.response.data.err.message)
+      }
+    }
+  })
+
+  const validationLogin = (fieldname) => {
+    if (formikAddOutlet.touched[fieldname] && formikAddOutlet.errors[fieldname]) {
+      return "is-invalid";
+    }
+    if (formikAddOutlet.touched[fieldname] && !formikAddOutlet.errors[fieldname]) {
+      return "is-valid";
+    }
+    return '';
+  };
 
   const handlePreviewPhoto = (file) => {
     const reader = new FileReader()
@@ -34,6 +124,7 @@ export default function AddOutletPage() {
     }
     reader.readAsDataURL(file[0])
     console.log("file[0]", file[0])
+    setPhoto(file[0])
   }
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
@@ -44,98 +135,125 @@ export default function AddOutletPage() {
     }
   })
 
-  const handleSave = async () => {
-    try {
-      const { data } = await axios.post(`${API_URL}/api/v1/outlet`)
-      console.log(data.salto.salto.salto)
-    } catch (error) {
-      console.log("error", error.response)
-    }
+  const handleStatus = (e) => {
+    const {value} = e.target
+    console.log("value", value)
+    formikAddOutlet.setFieldValue('status', value)
   }
 
   return (
     <div>
       <Paper elevation={0} className='px-3 py-2'>
-        <div className="d-flex justify-content-between">
-          <h4>Add Outlet</h4>
-          <div className='d-flex'>
-            <Link to="/main/outlet">
-              <div className="btn btn-outline-secondary">
-                Cancel
-              </div>
-            </Link>
-            <div className="btn btn-outline-primary ms-2" onClick={handleSave}>
-              Save
+        <Form onSubmit={formikAddOutlet.handleSubmit}>
+          <div className="d-flex justify-content-between">
+            <h4>Add Outlet</h4>
+            <div className='d-flex'>
+              <Link to="/main/outlet">
+                <div className="btn btn-outline-secondary">
+                  Cancel
+                </div>
+              </Link>
+              <button type='submit' className="btn btn-outline-primary ms-2">
+                Save
+              </button>
             </div>
           </div>
-        </div>
-        <hr />
-        <Row>
-          <Col>
-            <Form.Group className="mb-2">
-              <Form.Label>Outlet Name</Form.Label>
-              <Form.Control 
-                type='text' 
-                placeholder='Outlet Name'
-              />
-            </Form.Group>
-            <Form.Group className="mb-2">
-              <Form.Label>Phone Number</Form.Label>
-              <Form.Control 
-                type='text' 
-                placeholder='Phone Number'
-              />
-            </Form.Group>
-            <Form.Group className="mb-2">
-              <Form.Label>Address</Form.Label>
-              <Form.Control 
-                type='text' 
-                placeholder='Address'
-              />
-            </Form.Group>
-            <Form.Group className="mb-2">
-              <Form.Label>Status</Form.Label>
-              {selectStatus.map((value, index) => 
-                <Form.Check 
-                  key={index}
-                  type='radio'
-                  name='status'
-                  label={value.label}
-                  checked={true}
+          <hr />
+          <Row>
+            <Col>
+              <Form.Group className="mb-2">
+                <Form.Label>Outlet Name</Form.Label>
+                <Form.Control 
+                  type='text' 
+                  placeholder='Outlet Name'
+                  className={validationLogin('name')}
+                  name='name'
+                  value={formikAddOutlet.values.name}
+                  onChange={formikAddOutlet.handleChange}
+                  onBlur={formikAddOutlet.handleBlur}
                 />
-              )}
-            </Form.Group>
-          </Col>
-          <Col>
-            <div className={styles.wrapperOutletImage}>
-              <Form.Label>Outlet Image</Form.Label>
-              <div {...getRootProps()} className='dropzone'>
-                {!photoPreview ? (
-                  <>
-                    <input {...getInputProps()} />
-                    {
-                      isDragActive ?
-                        <p>Drop the files here ...</p> :
-                        <p>Drag 'n' drop some files here, or click to select files</p>
-                    }
-                  </>
-                ) : (
-                  <div
-                    style={{
-                      margin: "auto",
-                      width: "120px",
-                      height: "120px",
-                      overflow: "hidden",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundImage: `url(${photoPreview})`
-                    }}
-                  />
-                )}
+                {formikAddOutlet.touched.name &&
+                formikAddOutlet.errors.name ? (
+                  <div className="text-danger">
+                    {formikAddOutlet.errors.name}
+                  </div>
+                ) : null}
+              </Form.Group>
+              <Form.Group className="mb-2">
+                <Form.Label>Phone Number</Form.Label>
+                <Form.Control 
+                  type='text' 
+                  placeholder='Phone Number'
+                  name='phoneNumber'
+                  className={validationLogin('phoneNumber')}
+                  value={formikAddOutlet.values.phoneNumber}
+                  onChange={formikAddOutlet.handleChange}
+                  onBlur={formikAddOutlet.handleBlur}
+                />
+                {formikAddOutlet.touched.phoneNumber &&
+                formikAddOutlet.errors.phoneNumber ? (
+                  <div className="text-danger">
+                    {formikAddOutlet.errors.phoneNumber}
+                  </div>
+                ) : null}
+              </Form.Group>
+              <Form.Group className="mb-2">
+                <Form.Label>Address</Form.Label>
+                <Form.Control 
+                  type='text' 
+                  placeholder='Address'
+                  name='address'
+                  className={validationLogin('address')}
+                  value={formikAddOutlet.values.address}
+                  onChange={formikAddOutlet.handleChange}
+                  onBlur={formikAddOutlet.handleBlur}
+                />
+                {formikAddOutlet.touched.address &&
+                formikAddOutlet.errors.address ? (
+                  <div className="text-danger">
+                    {formikAddOutlet.errors.address}
+                  </div>
+                ) : null}
+              </Form.Group>
+              <Form.Group className="mb-2">
+                <Form.Label>Status</Form.Label>
+                <div onChange={(e) => handleStatus(e)}>
+                  <input type="radio" value="active" name="status" checked={formikAddOutlet.values.status === 'active' ? true : false}/> Active
+                  <input className='ms-2' type="radio" value="inactive" checked={formikAddOutlet.values.status === 'inactive' ? true : false} name="status"/> Inactive
+                </div>
+              </Form.Group>
+            </Col>
+            <Col>
+              <div className={styles.wrapperOutletImage}>
+                <Form.Label>Outlet Image</Form.Label>
+                <div {...getRootProps()} className='dropzone'>
+                  {!photoPreview ? (
+                    <>
+                      <input {...getInputProps()} />
+                      {
+                        isDragActive ?
+                          <p>Drop the files here ...</p> :
+                          <p>Drag 'n' drop some files here, or click to select files</p>
+                      }
+                    </>
+                  ) : (
+                    <div
+                      style={{
+                        margin: "auto",
+                        width: "120px",
+                        height: "120px",
+                        overflow: "hidden",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundImage: `url(${photoPreview})`
+                      }}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        </Form>
       </Paper>
     </div>
   )

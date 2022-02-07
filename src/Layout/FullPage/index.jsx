@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AsideList } from '../Aside'
 import { ContentPages } from '../Content'
 import styles from './index.module.css'
+import { useDispatch } from 'react-redux'
+import { getAllOutlet } from '../../config/redux/actions/outlet'
 
 export default function Index() {
 
@@ -10,6 +12,11 @@ export default function Index() {
     setHide(!hide)
     console.log("triggered")
   }
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getAllOutlet())
+  }, [])
 
   return (
     <div className={`${styles.wrapperFullPage} d-flex`}>

@@ -22,8 +22,13 @@ axios.interceptors.response.use(function (response) {
   if (error.response.status === 401) {
     if (error.response.data.err.message === 'Invalid Token') {
       localStorage.clear()
+      window.location.reload()
     } else if (error.response.data.err.message === 'You not have Token!') {
       localStorage.clear()
+      window.location.reload()
+    } else if (error.response.data.err.message === 'Token Expired') {
+      localStorage.clear()
+      window.location.reload()
     }
   }
   return Promise.reject(error)

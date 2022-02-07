@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Tabs, Tab } from "react-bootstrap";
-import { useSelector, useDispatch } from 'react-redux';
-import { getAllOutlet } from '../../config/redux/actions/outlet'
 
 import OutletTab from './OutletTab/OutletTab'
 import OrderManagementTab from './OrderManagementTab/OrderManagementTab'
 
 export default function OutletPage() {
   const [tabs, setTabs] = useState("outlet")
-  const dispatch = useDispatch()
-
-  const dataOutlet = useSelector((state) => state)
-  console.log("dataOutlet", dataOutlet)
-
-  useEffect(() => {
-    dispatch(getAllOutlet())
-  }, [])
 
   return (
     <div>
       <Tabs activeKey={tabs} onSelect={(v) => setTabs(v)}>
         <Tab eventKey="outlet" title="Outlet">
-          <OutletTab/>
+          <OutletTab />
         </Tab>
 
         <Tab eventKey="order-management" title="Order Management">

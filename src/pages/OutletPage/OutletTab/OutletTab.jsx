@@ -11,8 +11,13 @@ import {
   Search
 } from '@mui/icons-material'
 import DataTable from 'react-data-table-component'
+import { useSelector } from 'react-redux'
 
 export default function OutletTab() {
+  
+  const { allOutlet } = useSelector((state) => state.outlet)
+  console.log("allOutlet", allOutlet)
+
   const [dataTable, setDataTable] = useState([])
 
   const columns = [
@@ -29,7 +34,7 @@ export default function OutletTab() {
     },
     {
       name: 'Phone Number',
-      selector: (row) => row.phone_number,
+      selector: (row) => row.phoneNumber,
       sortable: true
     },
     {
@@ -40,41 +45,8 @@ export default function OutletTab() {
   ]
 
   const handleDataTable = () => {
-    const data = [
-      {
-        id: 1,
-        name: 'Outlet Hanif',
-        phone_number: '089653478467',
-        status: 'Active'
-      },
-      {
-        id: 2,
-        name: 'Outlet Kumara',
-        phone_number: '089273881821',
-        status: 'Inactive'
-      },
-      {
-        id: 3,
-        name: 'Toko Sampoerna',
-        phone_number: '089472828192',
-        status: 'Active'
-      },
-      {
-        id: 4,
-        name: 'Toko Sejahtera',
-        phone_number: '081382928391',
-        status: 'Active'
-      },
-      {
-        id: 5,
-        name: 'Toko Material',
-        phone_number: '089228388564',
-        status: 'Inactive'
-      }
-    ]
-
     const result = []
-    data.map((value, index) => {
+    allOutlet.map((value, index) => {
       result.push({
         ...value,
         no: index + 1
