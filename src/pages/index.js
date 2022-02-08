@@ -1,6 +1,6 @@
 import LandingPage from './LandingPage/index.jsx'
 import { DashboardPage } from './DashboardPage/index.js'
-import { OutletPage, AddOutletPage } from './OutletPage/index.js'
+import { OutletPage, AddOutletPage, EditOutletPage } from './OutletPage/index.js'
 import { LoginPage, RegisterPage } from './Auth'
 import { ErrorPage } from './ErrorPage'
 import { ProductPage, AddProductPage } from './ProductPage'
@@ -19,6 +19,7 @@ export {
   ProductPage, 
   AddProductPage,
   AddOutletPage,
+  EditOutletPage,
   InventoryPage,
   IncomingStockPage,
   OutcomingStockPage,

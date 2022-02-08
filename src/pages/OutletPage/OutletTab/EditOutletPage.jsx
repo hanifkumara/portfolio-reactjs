@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { fabClasses, Paper } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
 import {
   Row,
   Col,
@@ -17,9 +17,24 @@ import * as Yup from "yup";
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 
-export default function AddOutletPage() {
+export default function EditOutletPage() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { id } = useParams()
+
+  const location = useLocation()
+
+  const {
+    businessId,
+    name,
+    phoneNumber,
+    address,
+    status,
+    image
+  } = location.state
+
+  console.log("location", location);
+
   const API_URL = process.env.REACT_APP_API_URL;
 
   const [photoPreview, setPhotoPreview] = useState('')
@@ -51,12 +66,12 @@ export default function AddOutletPage() {
   }
 
   const initialValuesOutlet = {
-    businessId: '',
-    name: '',
-    phoneNumber: '',
-    address:'',
-    status: 'active',
-    image: ''
+    businessId,
+    name,
+    phoneNumber,
+    address,
+    status: status ? 'active' : 'inactive',
+    image
   }
 
   const validationSchemaOutlet = Yup.object().shape({
@@ -90,8 +105,8 @@ export default function AddOutletPage() {
         } else {
           formData.append("status", 0);
         }
-        await axios.post(`${API_URL}/api/v1/outlet`, formData)
-        Toast('success', 'Successfully added Outlets', 3500)
+        await axios.put(`${API_URL}/api/v1/outlet/${id}`, formData)
+        Toast('success', 'Successfully update Outlets', 3500)
         dispatch(getAllOutlet())
         setTimeout(() => {
           resetForm()

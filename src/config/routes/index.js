@@ -16,6 +16,7 @@ import {
   ProductPage, 
   AddProductPage,
   AddOutletPage,
+  EditOutletPage,
   InventoryPage,
   IncomingStockPage,
   OutcomingStockPage,
@@ -48,6 +49,7 @@ export default function index() {
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="outlet" element={<OutletPage />} />
             <Route path="outlet/add" element={<AddOutletPage />} />
+            <Route path="outlet/edit/:id" element={<EditOutletPage />} />
             <Route path="product" element={<ProductPage />} />
             <Route path="product/add" element={<AddProductPage />} />
             <Route path="inventory" element={<InventoryPage />} />
