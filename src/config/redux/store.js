@@ -5,6 +5,6 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import thunk from 'redux-thunk'
 import rootReducer from './reducers/index'
 
-const store = createStore(rootReducer,applyMiddleware(thunk, logger))
+const store = createStore(rootReducer, {}, applyMiddleware(thunk, logger))
 
 export default store
