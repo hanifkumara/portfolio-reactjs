@@ -6,7 +6,8 @@ import {
   Col,
   Form,
   InputGroup,
-  Dropdown
+  Dropdown,
+  FormControl
 } from 'react-bootstrap'
 import {
   Search,
@@ -18,6 +19,7 @@ import { getAllOutlet } from '../../../config/redux/actions/outlet'
 import { toast } from 'react-toastify'
 
 import axios from 'axios'
+import styles from '../OutletPage.module.css'
 
 export default function OutletTab() {
   const API_URL = process.env.REACT_APP_API_URL;
@@ -55,10 +57,7 @@ export default function OutletTab() {
     try {
       await axios.delete(`${API_URL}/api/v1/outlet/${row.id}`)
       dispatch(getAllOutlet())
-      Toast('success', 'Successfully added Outlets', 3500)
-      setTimeout(() => {
-        navigate('/main/outlet')
-      }, 700);
+      Toast('success', 'Successfully delete Outlet', 3500)
       dispatch(getAllOutlet())
     } catch (error) {
       Toast('error', error.response.data.err.message, 3000)
@@ -101,7 +100,7 @@ export default function OutletTab() {
               <MoreHoriz color="action" />
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
+            <Dropdown.Menu as={CustomMenu}>
               <Link to={`edit/${row.id}`} state={row}>
                 <Dropdown.Item as="button">
                   Edit
@@ -130,7 +129,7 @@ export default function OutletTab() {
 
   useEffect(() => {
     handleDataTable()
-  }, [])
+  }, [allOutlet])
 
   return (
     <div>
@@ -161,10 +160,33 @@ export default function OutletTab() {
           noHeader
           data={dataTable}
           columns={columns}
-          style={{ minHeight: "100%" }}
           pagination
         />
       </Paper>
     </div>
   )
 }
+
+// forwardRef again here!
+// Dropdown needs access to the DOM of the Menu to measure it
+const CustomMenu = React.forwardRef(
+  ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
+    const [value, setValue] = useState('');
+
+    return (
+      <div
+        ref={ref}
+        style={style}
+        className={`${className} ${styles.customMenuDropdown}`}
+        aria-labelledby={labeledBy}
+      >
+        <ul className={`${styles.customListDropdown} list-unstyled`}>
+          {React.Children.toArray(children).filter(
+            (child) =>
+              !value || child.props.children.toLowerCase().startsWith(value),
+          )}
+        </ul>
+      </div>
+    );
+  },
+);

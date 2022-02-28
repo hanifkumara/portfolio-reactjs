@@ -93,11 +93,9 @@ export default function AddOutletPage() {
         await axios.post(`${API_URL}/api/v1/outlet`, formData)
         Toast('success', 'Successfully added Outlets', 3500)
         dispatch(getAllOutlet())
-        setTimeout(() => {
-          resetForm()
-          setLoading(false)
-          navigate('/main/outlet')
-        }, 700);
+        resetForm()
+        setLoading(false)
+        navigate('/main/outlet')
       } catch (error) {
         Toast('error', error.response.data.err.message, 3000)
         setLoading(false)

@@ -2,3 +2,9 @@
   width: 100%;
   height: 80%;
 }
+.customMenuDropdown{
+  position: fixed !important;
+}
+.customListDropdown{
+  margin: 0;
+}
