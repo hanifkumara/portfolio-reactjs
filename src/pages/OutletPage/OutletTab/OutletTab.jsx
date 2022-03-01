@@ -20,6 +20,7 @@ import { toast } from 'react-toastify'
 
 import axios from 'axios'
 import styles from '../OutletPage.module.css'
+import CustomMenu from '../../../components/CustomMenuDropdown/CustomMenuDropdown'
 
 export default function OutletTab() {
   const API_URL = process.env.REACT_APP_API_URL;
@@ -88,7 +89,7 @@ export default function OutletTab() {
     },
     {
       name: 'Status',
-      selector: (row) => row.status,
+      selector: (row) => row.status ? 'Active' : 'Inactive',
       sortable: true
     },
     {
@@ -166,27 +167,3 @@ export default function OutletTab() {
     </div>
   )
 }
-
-// forwardRef again here!
-// Dropdown needs access to the DOM of the Menu to measure it
-const CustomMenu = React.forwardRef(
-  ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
-    const [value, setValue] = useState('');
-
-    return (
-      <div
-        ref={ref}
-        style={style}
-        className={`${className} ${styles.customMenuDropdown}`}
-        aria-labelledby={labeledBy}
-      >
-        <ul className={`${styles.customListDropdown} list-unstyled`}>
-          {React.Children.toArray(children).filter(
-            (child) =>
-              !value || child.props.children.toLowerCase().startsWith(value),
-          )}
-        </ul>
-      </div>
-    );
-  },
-);

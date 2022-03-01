@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { Paper } from '@mui/material'
-import { Search } from '@mui/icons-material' 
+import { Search, MoreHoriz } from '@mui/icons-material' 
 import { Link } from 'react-router-dom'
 import { Row, Col, InputGroup, Form } from 'react-bootstrap'
 import DataTable from 'react-data-table-component'
 import AddCategoryModal from './AddCategoryModal' 
+import { Dropdown } from 'react-bootstrap'
+import CustomMenu from '../../../components/CustomMenuDropdown/CustomMenuDropdown'
 
 export default function ProductCategoryTab() {
 
   const [dataTable, setDataTable] = useState([])
   const [showModalAddCategory, setShowModalAddCategory] = useState(false)
+
+  const deleteOutlet = async (row) => {
+    console.log('deleteOutlet', row)
+  }
 
   const columns = [
     {
@@ -27,6 +33,29 @@ export default function ProductCategoryTab() {
       name: 'Product Total',
       selector: row => row.product_total,
       sortable: true
+    },
+    {
+      name: 'Actions',
+      cell: (row) => {
+        return (
+          <Dropdown>
+            <Dropdown.Toggle style={{backgroundColor: 'grey', border: 'none'}}>
+              <MoreHoriz color="action" />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu as={CustomMenu}>
+              {/* <Link to={`edit/${row.id}`} state={row}> */}
+                <Dropdown.Item as="button">
+                  Edit
+                </Dropdown.Item>
+              {/* </Link> */}
+              <Dropdown.Item as="button" onClick={() => deleteOutlet(row)}>
+                Delete
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )
+      }
     }
   ]
 

@@ -5,7 +5,8 @@ import {
   Row,
   Col,
   Form,
-  Spinner
+  Spinner,
+  Button
 } from 'react-bootstrap'
 import { useDropzone } from 'react-dropzone'
 import styles from '../OutletPage.module.css'
@@ -140,11 +141,16 @@ export default function AddOutletPage() {
     formikAddOutlet.setFieldValue('status', value)
   }
 
+  const removeImage = () => {
+    setPhoto('')
+    setPhotoPreview('')
+  }
+
   return (
     <div>
       <Paper elevation={0} className='px-3 py-2'>
         <Form onSubmit={formikAddOutlet.handleSubmit}>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between align-items-center">
             <h4>Add Outlet</h4>
             <div className='d-flex'>
               <Link to="/main/outlet">
@@ -202,6 +208,8 @@ export default function AddOutletPage() {
               <Form.Group className="mb-2">
                 <Form.Label>Address</Form.Label>
                 <Form.Control 
+                  as='textarea'
+                  rows={3}
                   type='text' 
                   placeholder='Address'
                   name='address'
@@ -229,9 +237,9 @@ export default function AddOutletPage() {
               <div className={styles.wrapperOutletImage}>
                 <Form.Label>Outlet Image</Form.Label>
                 <div {...getRootProps()} className='dropzone'>
+                  <input {...getInputProps()} />
                   {!photoPreview ? (
                     <>
-                      <input {...getInputProps()} />
                       {
                         isDragActive ?
                           <p>Drop the files here ...</p> :
@@ -242,8 +250,8 @@ export default function AddOutletPage() {
                     <div
                       style={{
                         margin: "auto",
-                        width: "120px",
-                        height: "120px",
+                        width: "220px",
+                        height: "220px",
                         overflow: "hidden",
                         backgroundSize: "cover",
                         backgroundPosition: "center",
@@ -251,6 +259,9 @@ export default function AddOutletPage() {
                       }}
                     />
                   )}
+                </div>
+                <div className="d-flex justify-content-center">
+                  <Button className='mt-2' variant='danger' onClick={removeImage}>Remove Image</Button>
                 </div>
               </div>
             </Col>

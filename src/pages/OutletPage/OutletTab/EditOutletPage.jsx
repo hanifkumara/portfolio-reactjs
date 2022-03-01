@@ -37,8 +37,8 @@ export default function EditOutletPage() {
 
   const API_URL = process.env.REACT_APP_API_URL;
 
-  const [photoPreview, setPhotoPreview] = useState('')
-  const [photo, setPhoto] = useState('')
+  const [photoPreview, setPhotoPreview] = useState(image ? `${API_URL}/upload/${image}` : '')
+  const [photo, setPhoto] = useState(image ? `${API_URL}/upload/${image}` : '')
   const [loading, setLoading] = useState(false)
 
   const Toast = (status, message, autoClose= 5000) => {
@@ -99,7 +99,9 @@ export default function EditOutletPage() {
         formData.append("name", values.name);
         formData.append("address", values.address);
         formData.append("phoneNumber", values.phoneNumber);
-        formData.append("image", photo);
+        if(photo.name) {
+          formData.append("image", photo);
+        }
         if(values.status === 'active') {
           formData.append("status", 1);
         } else {
@@ -219,6 +221,8 @@ export default function EditOutletPage() {
               <Form.Group className="mb-2">
                 <Form.Label>Address</Form.Label>
                 <Form.Control 
+                  as='textarea'
+                  rows={3}
                   type='text' 
                   placeholder='Address'
                   name='address'
@@ -246,9 +250,9 @@ export default function EditOutletPage() {
               <div className={styles.wrapperOutletImage}>
                 <Form.Label>Outlet Image</Form.Label>
                 <div {...getRootProps()} className='dropzone'>
+                  <input {...getInputProps()} />
                   {!photoPreview ? (
                     <>
-                      <input {...getInputProps()} />
                       {
                         isDragActive ?
                           <p>Drop the files here ...</p> :
@@ -259,12 +263,12 @@ export default function EditOutletPage() {
                     <div
                       style={{
                         margin: "auto",
-                        width: "120px",
-                        height: "120px",
+                        width: "220px",
+                        height: "220px",
                         overflow: "hidden",
                         backgroundSize: "cover",
                         backgroundPosition: "center",
-                        backgroundImage: `url(${photoPreview})`
+                        backgroundImage: `url(${photoPreview || photo})`
                       }}
                     />
                   )}
