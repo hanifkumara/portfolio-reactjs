@@ -3,7 +3,6 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
 import { getAllProductCategory } from '../../../config/redux/actions/product_category'
-import { Link, useNavigate } from 'react-router-dom'
 
 import {
   Modal,
@@ -13,17 +12,17 @@ import {
 } from 'react-bootstrap'
 import axios from 'axios'
 
-export default function AddCategoryPage({
+export default function EditCategoryPage({
   show,
-  handleClose
+  handleClose,
+  data
 }) {
   const API_URL = process.env.REACT_APP_API_URL
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
 
   const initialValues = {
-    category_name: ''
+    category_name: data.name
   }
 
   const validationSchema = Yup.object().shape({
@@ -33,12 +32,15 @@ export default function AddCategoryPage({
   })
 
   const formikCategory = useFormik({
+    enableReinitialize: true,
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
       setLoading(true)
       try {
-        await axios.post(`${API_URL}/api/v1/product-category`, {name: values.category_name})
+        await axios.put(`${API_URL}/api/v1/product-category/${data.id}`, {
+          name: values.category_name
+        })
         dispatch(getAllProductCategory())
         setLoading(false)
         handleClose()

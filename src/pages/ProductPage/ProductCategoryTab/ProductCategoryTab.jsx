@@ -1,23 +1,85 @@
 import React, { useEffect, useState } from 'react'
-import { Paper } from '@mui/material'
+import { 
+  Paper,
+  Switch, } from '@mui/material'
 import { Search, MoreHoriz } from '@mui/icons-material' 
 import { Link } from 'react-router-dom'
 import { Row, Col, InputGroup, Form } from 'react-bootstrap'
 import DataTable from 'react-data-table-component'
 import AddCategoryModal from './AddCategoryModal' 
+import EditCategoryModal from './EditCategoryModal' 
 import { Dropdown } from 'react-bootstrap'
 import CustomMenu from '../../../components/CustomMenuDropdown/CustomMenuDropdown'
+import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllProductCategory } from '../../../config/redux/actions/product_category'
+
+import { toast } from 'react-toastify'
+toast.configure()
 
 export default function ProductCategoryTab() {
+  const API_URL =  process.env.REACT_APP_API_URL
 
   const [dataTable, setDataTable] = useState([])
   const [showModalAddCategory, setShowModalAddCategory] = useState(false)
+  const [showModalEditCategory, setShowModalEditCategory] = useState(false)
+  const [dataProductCategory, setDataProductCategory] = useState({})
 
-  const deleteOutlet = async (row) => {
-    console.log('deleteOutlet', row)
+  const Toast = (status, message) => {
+    if(status === 'success') {
+      return toast.success(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      return toast.error(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
 
-  const columns = [
+  const dispatch = useDispatch()
+  const { allProductCategory } = useSelector(state => state.productCategory)
+
+  const deleteOutlet = async (row) => {
+    try {
+      await axios.delete(`${API_URL}/api/v1/product-category/${row.id}`)
+      Toast('success', `success delete product category ${row.name}`)
+      dispatch(getAllProductCategory())      
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const handleChangeStatus = async (row) => {
+    console.log('handleChangeStatus', row)
+    try {
+      await axios.patch(`${API_URL}/api/v1/product-category/status/${row.id}`, {
+        status: row.status ? 0 : 1
+      })
+      dispatch(getAllProductCategory())
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const openModalEdit = (row) => {
+    handleOpenModalEditCateogry()
+    setDataProductCategory(row)
+  }
+
+  const columns = [ 
     {
       name: 'No',
       selector: row => row.no,
@@ -30,8 +92,17 @@ export default function ProductCategoryTab() {
       sortable: true
     },
     {
-      name: 'Product Total',
-      selector: row => row.product_total,
+      name: 'Status',
+      cell: (rows) => {
+        return (
+          <Switch
+            color="primary"
+            checked={rows.status ? true : false}
+            onChange={() => handleChangeStatus(rows)}
+            name=""
+          />
+        );
+      },
       sortable: true
     },
     {
@@ -44,11 +115,9 @@ export default function ProductCategoryTab() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu as={CustomMenu}>
-              {/* <Link to={`edit/${row.id}`} state={row}> */}
-                <Dropdown.Item as="button">
-                  Edit
-                </Dropdown.Item>
-              {/* </Link> */}
+              <Dropdown.Item as="button" onClick={() => openModalEdit(row)}>
+                Edit
+              </Dropdown.Item>
               <Dropdown.Item as="button" onClick={() => deleteOutlet(row)}>
                 Delete
               </Dropdown.Item>
@@ -59,52 +128,42 @@ export default function ProductCategoryTab() {
     }
   ]
 
-  const handleDataTable = () => {
-    const data = [
-      {
-        id: 1,
-        name: 'Makanan',
-        product_total: 20
-      },
-      {
-        id: 2,
-        name: 'Minuman',
-        product_total: 10
-      },
-      {
-        id: 3,
-        name: 'Alat',
-        product_total: 15
-      },
-      {
-        id: 4,
-        name: 'Material',
-        product_total: 5
-      }
-    ]
-
-    const result = []
-    data.map((value, index) => {
-      result.push({
-        ...value,
-        no: index + 1
+  const handleDataTable = async (data) => {
+    try {
+      const result = []
+      data.map((value, index) => {
+        result.push({
+          ...value,
+          no: index + 1
+        })
       })
-    })
-    setDataTable(result)
+      setDataTable(result)
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   useEffect(() => {
-    handleDataTable()
-  }, [])
+    console.log('allProductCategory', allProductCategory)
+    handleDataTable(allProductCategory)
+  }, [allProductCategory])
 
   const handleCloseModalAddCategory = () => setShowModalAddCategory(false)
   const handleOpenModalAddCateogry = () => setShowModalAddCategory(true)
+
+  const handleCloseModalEditCategory = () => setShowModalEditCategory(false)
+  const handleOpenModalEditCateogry = () => setShowModalEditCategory(true)
 
   return (
     <div>
       <AddCategoryModal 
         show={showModalAddCategory}
         handleClose={handleCloseModalAddCategory}
+      />
+      <EditCategoryModal 
+        show={showModalEditCategory}
+        handleClose={handleCloseModalEditCategory}
+        data={dataProductCategory}
       />
       <Paper elevation={0} className='px-3 py-2'>
         <div className="d-flex justify-content-between my-3">

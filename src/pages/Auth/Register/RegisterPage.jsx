@@ -235,18 +235,16 @@ export default function RegisterPage() {
             </Form.Group> */}
 
             <div className="d-flex justify-content-between mb-2">
-              <div className={`${styles.button } text-muted`}>Forgot Password?</div>
+              <Button variant="primary" type="submit" disabled={loading}>
+                Submit
+                {loading ? (
+                  <Spinner className="ms-2" animation="border" role="status" size="sm" />
+                ) : null}
+              </Button>
               <Link to="/auth/login">
                 <div className={`${styles.button} text-primary`}>Already Have Account? Login</div>
               </Link>
             </div>
-
-            <Button variant="primary" type="submit" disabled={loading}>
-              Submit
-              {loading ? (
-                <Spinner className="ms-2" animation="border" role="status" size="sm" />
-              ) : null}
-            </Button>
           </Form>
         </div>
       </div>
