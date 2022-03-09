@@ -15,6 +15,7 @@ import {
   ErrorPage, 
   ProductPage, 
   AddProductPage,
+  EditProductPage,
   AddOutletPage,
   EditOutletPage,
   InventoryPage,
@@ -52,6 +53,7 @@ export default function index() {
             <Route path="outlet/edit/:id" element={<EditOutletPage />} />
             <Route path="product" element={<ProductPage />} />
             <Route path="product/add" element={<AddProductPage />} />
+            <Route path="product/edit/:id" element={<EditProductPage />} />
             <Route path="inventory" element={<InventoryPage />} />
             <Route path="inventory/incoming-stock" element={<IncomingStockPage />} />
             <Route path="inventory/outcoming-stock" element={<OutcomingStockPage />} />

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Paper } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Form, Row, Col, Spinner } from 'react-bootstrap'
 import Select from 'react-select'
 import { useDropzone } from 'react-dropzone'
@@ -12,9 +12,21 @@ import * as Yup from 'yup'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllProduct } from '../../../config/redux/actions/product'
 
-export default function AddProductPage() {
+export default function EditProductPage() {
   const API_URL = process.env.REACT_APP_API_URL
   const dispatch = useDispatch()
+  const location = useLocation()
+
+  const {
+    outletId,
+    name,
+    productCategoryId,
+    price,
+    description,
+    status
+  } = location.state
+
+  console.log('location.state', location.state)
 
   const { allOutlet } = useSelector(state => state.outlet)
   const { allProductCategory } = useSelector(state => state.productCategory)
@@ -24,6 +36,7 @@ export default function AddProductPage() {
   const [photo, setPhoto] = useState('')
 
   const [optionOutlets, setOptionOutlets] = useState([])
+  const [defaultValues, setDefaultValues] = useState([])
   const [optionCategories, setOptionCategories] = useState([])
 
   const handlePreviewPhoto = (file) => {
@@ -53,12 +66,12 @@ export default function AddProductPage() {
   }
 
   const initialValues = {
-    outletId: [],
-    name: '',
-    productCategoryId: '',
-    price: '',
-    description: '',
-    status: 'active'
+    outletId,
+    name,
+    productCategoryId,
+    price,
+    description,
+    status: status ? 'active' : 'inactive'
   }
 
   const validationSchema = Yup.object().shape({
@@ -111,7 +124,12 @@ export default function AddProductPage() {
     const handleOptionOutlet = allOutlet.map(outlet => {
       return { value: outlet.id, label: outlet.name }
     })
+    const handleDefaultValues = handleOptionOutlet.find(value => {
+      return value.value === formikProduct.getFieldProps('outletId').value
+    })
+    console.log('handleDefaultValues', handleDefaultValues)
     setOptionOutlets(handleOptionOutlet)
+    setDefaultValues(handleDefaultValues)
   }, [allOutlet])
 
   useEffect(() => {
@@ -161,8 +179,8 @@ export default function AddProductPage() {
               <Form.Group className="mb-2">
               <Form.Label>Outlet</Form.Label>
               <Select 
-                isMulti
                 options={optionOutlets}
+                defaultValue={defaultValues}
                 name="outlet"
                 className="basic-multi-select"
                 classNamePrefix="Choose Outlet"

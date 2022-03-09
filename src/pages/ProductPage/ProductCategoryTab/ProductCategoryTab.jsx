@@ -144,7 +144,6 @@ export default function ProductCategoryTab() {
   }
 
   useEffect(() => {
-    console.log('allProductCategory', allProductCategory)
     handleDataTable(allProductCategory)
   }, [allProductCategory])
 

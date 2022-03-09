@@ -27,6 +27,8 @@ export default function AddOutletPage() {
   const [photo, setPhoto] = useState('')
   const [loading, setLoading] = useState(false)
 
+  const environment = process.env.REACT_APP_ENVIRONMENT
+
   const Toast = (status, message, autoClose= 5000) => {
     if(status === 'success') {
       return toast.success(message, {
@@ -105,7 +107,7 @@ export default function AddOutletPage() {
     }
   })
 
-  const validationLogin = (fieldname) => {
+  const validationOutlet = (fieldname) => {
     if (formikAddOutlet.touched[fieldname] && formikAddOutlet.errors[fieldname]) {
       return "is-invalid";
     }
@@ -174,7 +176,7 @@ export default function AddOutletPage() {
                 <Form.Control 
                   type='text' 
                   placeholder='Outlet Name'
-                  className={validationLogin('name')}
+                  className={validationOutlet('name')}
                   name='name'
                   value={formikAddOutlet.values.name}
                   onChange={formikAddOutlet.handleChange}
@@ -193,7 +195,7 @@ export default function AddOutletPage() {
                   type='text' 
                   placeholder='Phone Number'
                   name='phoneNumber'
-                  className={validationLogin('phoneNumber')}
+                  className={validationOutlet('phoneNumber')}
                   value={formikAddOutlet.values.phoneNumber}
                   onChange={formikAddOutlet.handleChange}
                   onBlur={formikAddOutlet.handleBlur}
@@ -213,7 +215,7 @@ export default function AddOutletPage() {
                   type='text' 
                   placeholder='Address'
                   name='address'
-                  className={validationLogin('address')}
+                  className={validationOutlet('address')}
                   value={formikAddOutlet.values.address}
                   onChange={formikAddOutlet.handleChange}
                   onBlur={formikAddOutlet.handleBlur}
@@ -233,38 +235,40 @@ export default function AddOutletPage() {
                 </div>
               </Form.Group>
             </Col>
-            <Col>
-              <div className={styles.wrapperOutletImage}>
-                <Form.Label>Outlet Image</Form.Label>
-                <div {...getRootProps()} className='dropzone'>
-                  <input {...getInputProps()} />
-                  {!photoPreview ? (
-                    <>
-                      {
-                        isDragActive ?
-                          <p>Drop the files here ...</p> :
-                          <p>Drag 'n' drop some files here, or click to select files</p>
-                      }
-                    </>
-                  ) : (
-                    <div
-                      style={{
-                        margin: "auto",
-                        width: "220px",
-                        height: "220px",
-                        overflow: "hidden",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        backgroundImage: `url(${photoPreview})`
-                      }}
-                    />
-                  )}
+            {environment && environment === 'production' ? null : (
+              <Col>
+                <div className={styles.wrapperOutletImage}>
+                  <Form.Label>Outlet Image</Form.Label>
+                  <div {...getRootProps()} className='dropzone'>
+                    <input {...getInputProps()} />
+                    {!photoPreview ? (
+                      <>
+                        {
+                          isDragActive ?
+                            <p>Drop the files here ...</p> :
+                            <p>Drag 'n' drop some files here, or click to select files</p>
+                        }
+                      </>
+                    ) : (
+                      <div
+                        style={{
+                          margin: "auto",
+                          width: "220px",
+                          height: "220px",
+                          overflow: "hidden",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundImage: `url(${photoPreview})`
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div className="d-flex justify-content-center">
+                    <Button className='mt-2' variant='danger' onClick={removeImage}>Remove Image</Button>
+                  </div>
                 </div>
-                <div className="d-flex justify-content-center">
-                  <Button className='mt-2' variant='danger' onClick={removeImage}>Remove Image</Button>
-                </div>
-              </div>
-            </Col>
+              </Col>
+            )}
           </Row>
         </Form>
       </Paper>

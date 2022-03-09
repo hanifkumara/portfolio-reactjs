@@ -1,14 +1,58 @@
 import React, {useState, useEffect} from 'react'
 import { Paper } from '@mui/material'
-import { Search } from '@mui/icons-material'
-import { Row, Col, InputGroup, Form } from 'react-bootstrap'
+import { Search, MoreHoriz } from '@mui/icons-material'
+import { Row, Col, InputGroup, Form, Dropdown } from 'react-bootstrap'
 import DataTable from 'react-data-table-component'
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllProduct } from '../../../config/redux/actions/product'
+import CustomMenu from '../../../components/CustomMenuDropdown/CustomMenuDropdown'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 export default function ProductTab() {
+  const API_URL = process.env.REACT_APP_API_URL
 
   const [dataTable, setDataTable] = useState([])
-  
+
+  const { allProduct } = useSelector(state => state.product)
+  const dispatch = useDispatch()
+
+  const Toast = (status, message, autoClose= 5000) => {
+    if(status === 'success') {
+      return toast.success(message, {
+        position: "top-right",
+        autoClose,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      return toast.error(message, {
+        position: "top-right",
+        autoClose,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
+
+  const deleteOutlet = async (row) => {
+    console.log('row', row)
+    try {
+      await axios.delete(`${API_URL}/api/v1/product/${row.id}`)
+      Toast('success', `success delete product ${row.name}`)
+      dispatch(getAllProduct())      
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
   const columns = [
     {
       name: 'No',
@@ -23,37 +67,40 @@ export default function ProductTab() {
     },
     {
       name: 'Outlet',
-      selector: row => row.outlet,
+      selector: row => row.Outlet.name,
       sortable: true
     },
     {
       name: 'Price',
       selector: row => row.price,
       sortable: true
+    },
+    {
+      name: 'Actions',
+      cell: (row) => {
+        return (
+          <Dropdown>
+            <Dropdown.Toggle style={{backgroundColor: 'grey', border: 'none'}}>
+              <MoreHoriz color="action" />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu as={CustomMenu}>
+              <Link to={`edit/${row.id}`} state={row}>
+                <Dropdown.Item as="button">
+                  Edit
+                </Dropdown.Item>
+              </Link>
+              <Dropdown.Item as="button" onClick={() => deleteOutlet(row)}>
+                Delete
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )
+      }
     }
   ]
 
-  const handleDataTable = () => {
-    const data = [
-      {
-        id: 1,
-        outlet: 'Hanif Store',
-        name: 'Rawon Daging Sapi Spesial',
-        price: 'Rp. 15.000'
-      },
-      {
-        id: 2,
-        outlet: 'Hanif Store',
-        name: 'Mie Bakso Urat ',
-        price: 'Rp. 25.000'
-      },
-      {
-        id: 3,
-        outlet: 'Kumara Store',
-        name: 'Martabak Telor Jumbo',
-        price: 'Rp. 45.000'
-      }
-    ]
+  const handleDataTable = (data) => {
     const result = []
     data.map((value, index) => {
       result.push({
@@ -66,8 +113,8 @@ export default function ProductTab() {
   }
 
   useEffect(() => {
-    handleDataTable()
-  }, [])
+    handleDataTable(allProduct)
+  }, [allProduct])
 
   return (
     <div>

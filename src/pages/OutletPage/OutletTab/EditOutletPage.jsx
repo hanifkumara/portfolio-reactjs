@@ -18,6 +18,8 @@ import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 
 export default function EditOutletPage() {
+  const environment = process.env.REACT_APP_ENVIRONMENT
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { id } = useParams()
@@ -246,35 +248,37 @@ export default function EditOutletPage() {
                 </div>
               </Form.Group>
             </Col>
-            <Col>
-              <div className={styles.wrapperOutletImage}>
-                <Form.Label>Outlet Image</Form.Label>
-                <div {...getRootProps()} className='dropzone'>
-                  <input {...getInputProps()} />
-                  {!photoPreview ? (
-                    <>
-                      {
-                        isDragActive ?
-                          <p>Drop the files here ...</p> :
-                          <p>Drag 'n' drop some files here, or click to select files</p>
-                      }
-                    </>
-                  ) : (
-                    <div
-                      style={{
-                        margin: "auto",
-                        width: "220px",
-                        height: "220px",
-                        overflow: "hidden",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        backgroundImage: `url(${photoPreview || photo})`
-                      }}
-                    />
-                  )}
+            {environment && environment === 'production' ? null : (
+              <Col>
+                <div className={styles.wrapperOutletImage}>
+                  <Form.Label>Outlet Image</Form.Label>
+                  <div {...getRootProps()} className='dropzone'>
+                    <input {...getInputProps()} />
+                    {!photoPreview ? (
+                      <>
+                        {
+                          isDragActive ?
+                            <p>Drop the files here ...</p> :
+                            <p>Drag 'n' drop some files here, or click to select files</p>
+                        }
+                      </>
+                    ) : (
+                      <div
+                        style={{
+                          margin: "auto",
+                          width: "220px",
+                          height: "220px",
+                          overflow: "hidden",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundImage: `url(${photoPreview || photo})`
+                        }}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Col>
+              </Col>
+            )}
           </Row>
         </Form>
       </Paper>

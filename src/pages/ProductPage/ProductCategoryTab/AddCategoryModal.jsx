@@ -35,12 +35,13 @@ export default function AddCategoryPage({
   const formikCategory = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, {resetForm}) => {
       setLoading(true)
       try {
         await axios.post(`${API_URL}/api/v1/product-category`, {name: values.category_name})
         dispatch(getAllProductCategory())
         setLoading(false)
+        resetForm()
         handleClose()
       } catch (error) {
         console.log(error)
