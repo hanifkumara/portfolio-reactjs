@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Paper } from '@mui/material'
+import { Paper, Switch } from '@mui/material'
 import { Search, MoreHoriz } from '@mui/icons-material'
 import { Row, Col, InputGroup, Form, Dropdown } from 'react-bootstrap'
 import DataTable from 'react-data-table-component'
@@ -16,6 +16,9 @@ export default function ProductTab() {
   const [dataTable, setDataTable] = useState([])
 
   const { allProduct } = useSelector(state => state.product)
+
+  const { allOutlet } = useSelector(state => state.outlet)
+
   const dispatch = useDispatch()
 
   const Toast = (status, message, autoClose= 5000) => {
@@ -43,11 +46,21 @@ export default function ProductTab() {
   }
 
   const deleteOutlet = async (row) => {
-    console.log('row', row)
     try {
       await axios.delete(`${API_URL}/api/v1/product/${row.id}`)
       Toast('success', `success delete product ${row.name}`)
       dispatch(getAllProduct())      
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+
+  const handleChangeStatus = async (row) => {
+    try {
+      await axios.patch(`${API_URL}/api/v1/product/status/${row.id}`, {
+        status: row.status ? 0 : 1
+      })
+      dispatch(getAllProduct())
     } catch (error) {
       console.log('error', error)
     }
@@ -76,6 +89,20 @@ export default function ProductTab() {
       sortable: true
     },
     {
+      name: 'Status',
+      cell: (rows) => {
+        return (
+          <Switch
+            color="primary"
+            checked={rows.status ? true : false}
+            onChange={() => handleChangeStatus(rows)}
+            name=""
+          />
+        );
+      },
+      sortable: true
+    },
+    {
       name: 'Actions',
       cell: (row) => {
         return (
@@ -85,7 +112,7 @@ export default function ProductTab() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu as={CustomMenu}>
-              <Link to={`edit/${row.id}`} state={row}>
+              <Link to={`edit/${row.id}`} state={{row, allOutlet}}>
                 <Dropdown.Item as="button">
                   Edit
                 </Dropdown.Item>

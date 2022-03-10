@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Paper } from '@mui/material' 
-import { Link, useNavigate } from 'react-router-dom'
+import { Paper, Switch } from '@mui/material' 
+import { Link } from 'react-router-dom'
 import {
   Row,
   Col,
   Form,
   InputGroup,
-  Dropdown,
-  FormControl
+  Dropdown
 } from 'react-bootstrap'
 import {
   Search,
@@ -16,17 +15,16 @@ import {
 import DataTable from 'react-data-table-component'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllOutlet } from '../../../config/redux/actions/outlet'
+
 import { toast } from 'react-toastify'
 
 import axios from 'axios'
-import styles from '../OutletPage.module.css'
 import CustomMenu from '../../../components/CustomMenuDropdown/CustomMenuDropdown'
 
 export default function OutletTab() {
   const API_URL = process.env.REACT_APP_API_URL;
   const { allOutlet } = useSelector((state) => state.outlet)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const [dataTable, setDataTable] = useState([])
 
@@ -66,8 +64,16 @@ export default function OutletTab() {
     }
   }
 
-  const editOutlet = async (row) => {
-    
+  const handleChangeStatus = async (row) => {
+    console.log('handleChangeStatus', row)
+    try {
+      await axios.patch(`${API_URL}/api/v1/outlet/status/${row.id}`, {
+        status: row.status ? 0 : 1
+      })
+      dispatch(getAllOutlet())
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   const columns = [
@@ -89,7 +95,16 @@ export default function OutletTab() {
     },
     {
       name: 'Status',
-      selector: (row) => row.status ? 'Active' : 'Inactive',
+      cell: (rows) => {
+        return (
+          <Switch
+            color="primary"
+            checked={rows.status ? true : false}
+            onChange={() => handleChangeStatus(rows)}
+            name=""
+          />
+        );
+      },
       sortable: true
     },
     {

@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { Form, Row, Col, Spinner } from 'react-bootstrap'
 import Select from 'react-select'
 import { useDropzone } from 'react-dropzone'
-import styles from '../ProductPage.module.css'
 import { useFormik } from 'formik'
 import axios from 'axios'
 import * as Yup from 'yup'
@@ -26,6 +25,7 @@ export default function EditProductPage() {
     status
   } = location.state
 
+  console.log('location', location)
   console.log('location.state', location.state)
 
   const { allOutlet } = useSelector(state => state.outlet)
@@ -36,8 +36,9 @@ export default function EditProductPage() {
   const [photo, setPhoto] = useState('')
 
   const [optionOutlets, setOptionOutlets] = useState([])
-  const [defaultValues, setDefaultValues] = useState([])
+  const [defaultOutlets, setDefaultOutlets] = useState([])
   const [optionCategories, setOptionCategories] = useState([])
+  const [defaultCategories, setDefaultCategories] = useState([])
 
   const handlePreviewPhoto = (file) => {
     const reader = new FileReader();
@@ -127,17 +128,19 @@ export default function EditProductPage() {
     const handleDefaultValues = handleOptionOutlet.find(value => {
       return value.value === formikProduct.getFieldProps('outletId').value
     })
-    console.log('handleDefaultValues', handleDefaultValues)
     setOptionOutlets(handleOptionOutlet)
-    setDefaultValues(handleDefaultValues)
+    setDefaultOutlets(handleDefaultValues)
   }, [allOutlet])
 
   useEffect(() => {
-    console.log('allProductCategory', allProductCategory)
     const handleOptionProductCategory = allProductCategory.map(productCategory => {
       return { value: productCategory.id, label: productCategory.name }
     })
+    const handleDefaultValues = handleOptionProductCategory.find(value => {
+      return value.value === formikProduct.getFieldProps('productCategoryId').value
+    })
     setOptionCategories(handleOptionProductCategory)
+    setDefaultCategories(handleDefaultValues)
   }, [allProductCategory])
 
   const handleSelectOutlet = (value) => {
@@ -177,16 +180,16 @@ export default function EditProductPage() {
           <Row className='mb-2'>
             <Col>
               <Form.Group className="mb-2">
-              <Form.Label>Outlet</Form.Label>
-              <Select 
-                options={optionOutlets}
-                defaultValue={defaultValues}
-                name="outlet"
-                className="basic-multi-select"
-                classNamePrefix="Choose Outlet"
-                onChange={(value) => handleSelectOutlet(value)}
-              />
-            </Form.Group>
+                <Form.Label>Outlet</Form.Label>
+                <Select 
+                  options={optionOutlets}
+                  defaultValue={defaultOutlets}
+                  name="outlet"
+                  className="basic-multi-select"
+                  classNamePrefix="Choose Outlet"
+                  onChange={(value) => handleSelectOutlet(value)}
+                />
+              </Form.Group>
             <Form.Group className="mb-2">
               <Form.Label>Name</Form.Label>
               <Form.Control 
@@ -203,6 +206,7 @@ export default function EditProductPage() {
               <Form.Label>Category</Form.Label>
               <Select
                 options={optionCategories}
+                defaultValue={defaultCategories}
                 classNamePrefix="Select Category"
                 name="category"
                 className={validationProduct('category')}
