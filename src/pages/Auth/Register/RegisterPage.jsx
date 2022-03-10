@@ -29,6 +29,7 @@ export default function RegisterPage() {
   const API_URL = process.env.REACT_APP_API_URL;
 
   const initialValuesRegister = {
+    name: "",
     email: "",
     phoneNumber: "",
     password: "",
@@ -36,6 +37,10 @@ export default function RegisterPage() {
   }
 
   const validationSchemaRegister = Yup.object().shape({
+    email: Yup.string()
+      .min(3, "Minimal characters 3")
+      .max(15, "Can't be more than 15 characters")
+      .required('Please Input Business Name'),
     email: Yup.string()
       .email('Invalid Format Email')
       .required('Please Input Email'),
@@ -103,6 +108,7 @@ export default function RegisterPage() {
       try {
         setLoading(true)
         const { data } = await axios.post(`${API_URL}/api/v1/auth/register-business-account`, {
+          name: values.name,
           email: values.email,
           phoneNumber: values.phoneNumber,
           password: values.password
@@ -116,7 +122,7 @@ export default function RegisterPage() {
         })
         setLoading(false)
       } catch (error) {
-        Toast('success', `Failed registration Business Account, please try again`)
+        Toast('error', `Failed registration Business Account ${error.response.data.err.message}, please try again`)
         setLoading(false)
         console.log("Error Message",error.response.data.err.message)
       }
@@ -149,12 +155,34 @@ export default function RegisterPage() {
         </div>
         <div className={styles.wrapperForm}>
           <Form onSubmit={formikRegister.handleSubmit}>
+            
+            <Form.Group className="mb-2" controlId="formBasicEmail">
+              <Form.Label>Business Name</Form.Label>
+              <Form.Control 
+                name="name"
+                type="name" 
+                placeholder="Enter Business Name" 
+                className={validationRegister("name")}
+                // {...formikRegister.getFieldProps("email")}
+                value={formikRegister.values.name}
+                onChange={formikRegister.handleChange}
+                onBlur={formikRegister.handleBlur}
+                autoComplete='new-password'
+              />
+              {formikRegister.touched.name &&
+              formikRegister.errors.name ? (
+                <div className="text-danger">
+                  {formikRegister.errors.name}
+                </div>
+              ) : null}
+            </Form.Group>
+
             <Form.Group className="mb-2" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control 
                 name="email"
                 type="email" 
-                placeholder="Enter email" 
+                placeholder="Enter Email" 
                 className={validationRegister("email")}
                 // {...formikRegister.getFieldProps("email")}
                 value={formikRegister.values.email}

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Paper } from '@mui/material'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Form, Row, Col, Spinner } from 'react-bootstrap'
 import Select from 'react-select'
 import { useDropzone } from 'react-dropzone'
@@ -15,30 +15,26 @@ export default function EditProductPage() {
   const API_URL = process.env.REACT_APP_API_URL
   const dispatch = useDispatch()
   const location = useLocation()
+  const navigate = useNavigate()
 
   const {
+    id,
     outletId,
     name,
     productCategoryId,
     price,
     description,
-    status
-  } = location.state
+    status,
+    image
+  } = location.state.row
 
-  console.log('location', location)
-  console.log('location.state', location.state)
-
-  const { allOutlet } = useSelector(state => state.outlet)
+  const allOutlets = location.state.allOutlet
+  
   const { allProductCategory } = useSelector(state => state.productCategory)
 
   const [loading, setLoading] = useState(false)
-  const [photoPreview, setPhotoPreview] = useState('')
-  const [photo, setPhoto] = useState('')
-
-  const [optionOutlets, setOptionOutlets] = useState([])
-  const [defaultOutlets, setDefaultOutlets] = useState([])
-  const [optionCategories, setOptionCategories] = useState([])
-  const [defaultCategories, setDefaultCategories] = useState([])
+  const [photoPreview, setPhotoPreview] = useState(image ? `${API_URL}/upload/${image}` : '')
+  const [photo, setPhoto] = useState(image ? `${API_URL}/upload/${image}` : '')
 
   const handlePreviewPhoto = (file) => {
     const reader = new FileReader();
@@ -67,6 +63,7 @@ export default function EditProductPage() {
   }
 
   const initialValues = {
+    productId: id,
     outletId,
     name,
     productCategoryId,
@@ -89,7 +86,7 @@ export default function EditProductPage() {
       try {
         console.log('data sebelum dikirim', values)
         const formData = new FormData()
-        formData.append("outletId", JSON.stringify(values.outletId));
+        formData.append("outletId", values.outletId);
         formData.append("name", values.name);
         formData.append("productCategoryId", values.productCategoryId);
         formData.append("price", values.price);
@@ -100,10 +97,11 @@ export default function EditProductPage() {
         } else {
           formData.append("status", 0);
         }
-        await axios.post(`${API_URL}/api/v1/product`, formData)
+        await axios.put(`${API_URL}/api/v1/product/${values.productId}`, formData)
         dispatch(getAllProduct())
         setLoading(false)
         resetForm()
+        navigate('/main/product')
       } catch (error) {
         console.log(error)
         setLoading(false)
@@ -121,27 +119,19 @@ export default function EditProductPage() {
     return '';
   };
 
-  useEffect(() => {
-    const handleOptionOutlet = allOutlet.map(outlet => {
-      return { value: outlet.id, label: outlet.name }
-    })
-    const handleDefaultValues = handleOptionOutlet.find(value => {
-      return value.value === formikProduct.getFieldProps('outletId').value
-    })
-    setOptionOutlets(handleOptionOutlet)
-    setDefaultOutlets(handleDefaultValues)
-  }, [allOutlet])
+  const optionOutlets = allOutlets.map(outlet => {
+    return { value: outlet.id, label: outlet.name }
+  })
+  const defaultValuesOutlet = optionOutlets.find(value => {
+    return value.value === formikProduct.getFieldProps('outletId').value
+  })
 
-  useEffect(() => {
-    const handleOptionProductCategory = allProductCategory.map(productCategory => {
-      return { value: productCategory.id, label: productCategory.name }
-    })
-    const handleDefaultValues = handleOptionProductCategory.find(value => {
-      return value.value === formikProduct.getFieldProps('productCategoryId').value
-    })
-    setOptionCategories(handleOptionProductCategory)
-    setDefaultCategories(handleDefaultValues)
-  }, [allProductCategory])
+  const optionProductCategory = allProductCategory.map(productCategory => {
+    return { value: productCategory.id, label: productCategory.name }
+  })
+  const defaultValuesCategory = optionProductCategory.find(value => {
+    return value.value === formikProduct.getFieldProps('productCategoryId').value
+  })
 
   const handleSelectOutlet = (value) => {
     const getId = value.map(item => {
@@ -183,7 +173,7 @@ export default function EditProductPage() {
                 <Form.Label>Outlet</Form.Label>
                 <Select 
                   options={optionOutlets}
-                  defaultValue={defaultOutlets}
+                  defaultValue={defaultValuesOutlet}
                   name="outlet"
                   className="basic-multi-select"
                   classNamePrefix="Choose Outlet"
@@ -205,8 +195,8 @@ export default function EditProductPage() {
             <Form.Group className="mb-2">
               <Form.Label>Category</Form.Label>
               <Select
-                options={optionCategories}
-                defaultValue={defaultCategories}
+                options={optionProductCategory}
+                defaultValue={defaultValuesCategory}
                 classNamePrefix="Select Category"
                 name="category"
                 className={validationProduct('category')}
@@ -219,9 +209,9 @@ export default function EditProductPage() {
                 Product Image
               </Form.Label>
               <div {...getRootProps()} className='dropzone'>
+                <input {...getInputProps()} />
                 {!photoPreview ? (
                   <>
-                    <input {...getInputProps()} />
                     { isDragActive ?
                         <p>Drop the files here ...</p> :
                         <p>Drag 'n' drop some files here, or click to select files</p>
@@ -236,7 +226,7 @@ export default function EditProductPage() {
                       overflow: "hidden",
                       backgroundSize: "cover",
                       backgroundPosition: "center",
-                      backgroundImage: `url(${photoPreview})`
+                      backgroundImage: `url(${photoPreview || photo})`
                     }}
                   />
                 )}

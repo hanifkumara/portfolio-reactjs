@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Paper } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Form, Row, Col, Spinner } from 'react-bootstrap'
 import Select from 'react-select'
 import { useDropzone } from 'react-dropzone'
@@ -15,6 +15,7 @@ import { getAllProduct } from '../../../config/redux/actions/product'
 export default function AddProductPage() {
   const API_URL = process.env.REACT_APP_API_URL
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const { allOutlet } = useSelector(state => state.outlet)
   const { allProductCategory } = useSelector(state => state.productCategory)
@@ -90,6 +91,7 @@ export default function AddProductPage() {
         dispatch(getAllProduct())
         setLoading(false)
         resetForm()
+        navigate('/main/product')
       } catch (error) {
         console.log(error)
         setLoading(false)
