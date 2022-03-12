@@ -19,6 +19,7 @@ import {
   AddOutletPage,
   EditOutletPage,
   InventoryPage,
+  AddIncomingStockPage,
   IncomingStockPage,
   OutcomingStockPage,
   AssemblyPage,

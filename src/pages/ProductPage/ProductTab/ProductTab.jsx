@@ -9,6 +9,7 @@ import { getAllProduct } from '../../../config/redux/actions/product'
 import CustomMenu from '../../../components/CustomMenuDropdown/CustomMenuDropdown'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { getAllProductCategory } from '../../../config/redux/actions/product_category'
 
 export default function ProductTab() {
   const API_URL = process.env.REACT_APP_API_URL
@@ -80,7 +81,7 @@ export default function ProductTab() {
     },
     {
       name: 'Outlet',
-      selector: row => row.Outlet.name,
+      selector: row => row.Outlet?.name,
       sortable: true
     },
     {
@@ -143,6 +144,17 @@ export default function ProductTab() {
     handleDataTable(allProduct)
   }, [allProduct])
 
+  useEffect(() => {
+    dispatch(getAllProductCategory())
+  }, [])
+
+  const paginationComponentOptions = {
+    rowsPerPageText: 'Row per Page',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Show All',
+  };
+
   return (
     <div>
       <Paper elevation={0} className='px-3 py-2'>
@@ -171,6 +183,8 @@ export default function ProductTab() {
         <DataTable
           columns={columns}
           data={dataTable}
+          pagination
+          paginationComponentOptions={paginationComponentOptions}
         />
       </Paper>
     </div>

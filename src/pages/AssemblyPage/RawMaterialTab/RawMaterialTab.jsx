@@ -94,6 +94,13 @@ export default function RawMaterialTab() {
   const handleCloseModalAddRawMaterial = () => setShowModalAddRawMaterial(false)
   const handleOpenModalAddRawMaterial = () => setShowModalAddRawMaterial(true)
 
+  const paginationComponentOptions = {
+    rowsPerPageText: 'Row per Page',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Show All',
+  };
+
   return (
     <div>
       <AddRawMaterialModal
@@ -125,6 +132,8 @@ export default function RawMaterialTab() {
         <DataTable 
           data={dataTable}
           columns={columns}
+          pagination
+          paginationComponentOptions={paginationComponentOptions}
         />
       </Paper>
     </div>

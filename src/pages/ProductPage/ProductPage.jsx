@@ -3,7 +3,6 @@ import { Tabs, Tab } from "react-bootstrap";
 
 import ProductTab from './ProductTab/ProductTab'
 import ProductCategoryTab from './ProductCategoryTab/ProductCategoryTab';
-import { getAllProductCategory } from '../../config/redux/actions/product_category'
 import { getAllProduct } from '../../config/redux/actions/product'
 import { useDispatch } from 'react-redux'
 
@@ -12,7 +11,6 @@ export default function ProductPage() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getAllProductCategory())
     dispatch(getAllProduct())
   }, [])
 

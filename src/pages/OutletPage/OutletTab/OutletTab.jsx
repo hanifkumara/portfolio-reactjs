@@ -147,6 +147,13 @@ export default function OutletTab() {
     handleDataTable()
   }, [allOutlet])
 
+  const paginationComponentOptions = {
+    rowsPerPageText: 'Row per Page',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Show All',
+  };
+
   return (
     <div>
       <Paper elevation={0} className='px-3 py-2'>
@@ -177,6 +184,7 @@ export default function OutletTab() {
           data={dataTable}
           columns={columns}
           pagination
+          paginationComponentOptions={paginationComponentOptions}
         />
       </Paper>
     </div>

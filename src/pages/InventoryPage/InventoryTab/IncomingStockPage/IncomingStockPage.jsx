@@ -9,10 +9,16 @@ import {
   Form
 } from 'react-bootstrap'
 import { Search } from '@mui/icons-material'
+import { useSelector } from 'react-redux'
 
 export default function IncomingStockPage() {
 
   const [dataTable, setDataTable] = useState([])
+
+  const { allIncomingStock } = useSelector(state => state.incomingStock)
+
+  console.log('allIncomingStock', allIncomingStock)
+
   const columns = [
     {
       name: 'No',
@@ -23,57 +29,21 @@ export default function IncomingStockPage() {
     {
       name: 'Code Number',
       sortable: true,
-      selector: (row) => row.code_number
+      selector: (row) => row.code
     },
     {
       name: 'Outlet',
       sortable: true,
-      selector: (row) => row.outlet
+      selector: (row) => row.Outet?.name
     },
     {
       name: 'Date',
       sortable: true,
       selector: (row) => row.date
-    },
-    {
-      name: 'Status',
-      sortable: true,
-      selector: (row) => row.status
     }
   ]
 
-  const handleDataTable = () => {
-    const data = [
-      {
-        id: 1,
-        code_number: 'INC000001',
-        outlet: 'Hanif Outlet',
-        date: '27 Juni 2022',
-        status: 'Done'
-      },
-      {
-        id: 2,
-        code_number: 'INC000002',
-        outlet: 'Hanif Outlet',
-        date: '3 Agustus 2022',
-        status: 'Done'
-      },
-      {
-        id: 3,
-        code_number: 'INC000003',
-        outlet: 'Kumara Outlet',
-        date: '10 Agustus 2022',
-        status: 'Pending'
-      },
-      {
-        id: 4,
-        code_number: 'INC000004',
-        outlet: 'Kumara Outlet',
-        date: '1 Desember 2022',
-        status: 'Done'
-      }
-    ]
-
+  const handleDataTable = (data) => {
     const result = []
     data.map((value, index) => {
       result.push({
@@ -85,8 +55,15 @@ export default function IncomingStockPage() {
   }
 
   useEffect(() => {
-    handleDataTable()
-  }, [])
+    handleDataTable(allIncomingStock)
+  }, [allIncomingStock])
+
+  const paginationComponentOptions = {
+    rowsPerPageText: 'Row per Page',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Show All',
+  };
 
   return (
     <div>
@@ -99,7 +76,7 @@ export default function IncomingStockPage() {
                 Back to Main
               </div>
             </Link>
-            <Link to='/main/adincoming-stock/add'>
+            <Link to='add'>
               <div className="btn btn-outline-primary ms-2">
                 Add Incoming Stock
               </div>
@@ -122,6 +99,8 @@ export default function IncomingStockPage() {
         <DataTable 
           data={dataTable}
           columns={columns}
+          pagination
+          paginationComponentOptions={paginationComponentOptions}
         />
       </Paper>
     </div>

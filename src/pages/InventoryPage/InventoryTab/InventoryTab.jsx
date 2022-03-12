@@ -10,12 +10,16 @@ import {
   Form
 } from 'react-bootstrap'
 import DataTable from 'react-data-table-component'
-// import dayjs from 'dayjs'
+import dayjs from 'dayjs'
+import { ListGroup } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 
 export default function InventoryTab() {
 
   const [dataTable, setDataTable] = useState([])
 
+  const { allInventory } = useSelector(state => state.inventory)
+  console.log('allInventory', allInventory)
   const columns = [
     {
       name: 'No',
@@ -30,7 +34,7 @@ export default function InventoryTab() {
     },
     {
       name: 'Outlet',
-      selector: (row) => row.outlet,
+      selector: (row) => row.Outlet?.name,
       sortable: true
     },
     {
@@ -40,56 +44,49 @@ export default function InventoryTab() {
     },
     {
       name: 'Starting Stock',
-      selector: (row) => row.starting_stock,
+      selector: (row) => row.stockStarting,
       sortable: true
     },
     {
       name: 'Incoming Stock',
-      selector: (row) => row.incoming_stock,
+      selector: (row) => row.incomingStock,
       sortable: true
     },
     {
       name: 'Outcoming Stock',
-      selector: (row) => row.outcoming_stock,
+      selector: (row) => row.outcomingStock,
       sortable: true
     }
   ]
 
-  const handleDataTable = () => {
-    const data = [
-      {
-        id: 1,
-        outlet: 'Hanif Store',
-        name: 'Rawon Daging Sapi Spesial',
-        stock: 20,
-        starting_stock: 50,
-        incoming_stock: 0,
-        outcoming_stock: 30
-      },
-      {
-        id: 2,
-        outlet: 'Hanif Store',
-        name: 'Mie Bakso Urat ',
-        stock: 100,
-        starting_stock: 30,
-        incoming_stock: 70,
-        outcoming_stock: 0
-      },
-      {
-        id: 3,
-        outlet: 'Kumara Store',
-        name: 'Martabak Telor Jumbo',
-        stock: 5,
-        starting_stock: 200,
-        incoming_stock: 0,
-        outcoming_stock: 195
-      }
-    ]
+  const handleDataTable = (data) => {
+    console.log('data', data)
     const result = []
     data.map((value, index) => {
+      let incomingStock = 0;
+      let outcomingStock = 0;
+
+      if (value.Stocks?.length) {
+        for (const val of value.Stocks) {
+          if (val.IncomingStock?.IncomingStockProducts.length) {
+            for (const stock of val.IncomingStock.IncomingStockProducts) {
+              incomingStock += stock.quantity;
+            }
+          }
+  
+          if (val.Outcoming_Stock_Products?.length) {
+            for (const stock of val.Outcoming_Stock_Products) {
+              outcomingStock += stock.quantity;
+            }
+          }
+        }
+      }
+
       result.push({
         ...value,
-        no: index + 1
+        no: index + 1,
+        incomingStock,
+        outcomingStock
       })
       return true
     })
@@ -97,29 +94,67 @@ export default function InventoryTab() {
   }
 
   useEffect(() => {
-    handleDataTable()
-  }, [])
+    handleDataTable(allInventory)
+  }, [allInventory])
 
   const ExpandableComponent = ({ data }) => {
-    // const stockData = data.stocks.map((item) => {
-    //   return {
-    //     id: item.id,
-    //     batch: item.Incoming_Stock
-    //       ? item.Incoming_Stock.code
-    //       : item.Transfer_Stock
-    //       ? item.Transfer_Stock.code
-    //       : item.Product_Assembly
-    //       ? item.Product_Assembly.code
-    //       : "-",
-    //     stock: item.stock || 0,
-    //     unit: item.Unit?.name || "-",
-    //     expired_date: item.expired_date
-    //       ? dayjs(item.expired_date).format("DD-MMM-YYYY")
-    //       : "-"
-    //   };
-    // });
-    // stockData.sort((a,b)=>a.id-b.id);
-  }
+    const stockData = data.Stocks.map((item) => {
+      return {
+        id: item.id,
+        batch: item.IncomingStock
+          ? item.IncomingStock.code
+          : "-",
+        stock: item.stock || 0,
+        expiredDate: item.expiredDate
+          ? dayjs(item.expiredDate).format("DD-MMM-YYYY")
+          : "-"
+      };
+    });
+    stockData.sort((a,b)=>a.id-b.id);
+    console.log("stockData", stockData)
+
+    return (
+      <>
+        <ListGroup style={{ padding: "1rem", marginLeft: "1rem" }}>
+          <ListGroup.Item>
+            <Row>
+              <Col style={{ fontWeight: "700" }}>Batch</Col>
+              <Col style={{ fontWeight: "700" }}>Stock</Col>
+              <Col style={{ fontWeight: "700" }}>Expired Date</Col>
+            </Row>
+          </ListGroup.Item>
+          {stockData.length ? (
+            stockData.map((val, index) => {
+              return (
+                <ListGroup.Item key={index}>
+                  <Row>
+                    <Col>{val.batch}</Col>
+                    <Col>{val.stock}</Col>
+                    <Col>{val.expiredDate}</Col>
+                  </Row>
+                </ListGroup.Item>
+              );
+            })
+          ) : (
+            <ListGroup.Item>
+              <Row>
+                <Col>-</Col>
+                <Col>-</Col>
+                <Col>-</Col>
+              </Row>
+            </ListGroup.Item>
+          )}
+        </ListGroup>
+      </>
+    );
+  };
+
+  const paginationComponentOptions = {
+    rowsPerPageText: 'Row per Page',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Show All',
+  };
 
   return (
     <div>
@@ -156,8 +191,10 @@ export default function InventoryTab() {
         <DataTable
           columns={columns}
           data={dataTable}
+          pagination
+          paginationComponentOptions={paginationComponentOptions}
           expandableRows
-          // expandableRowsComponent={<ExpandableComponent />}
+          expandableRowsComponent={ExpandableComponent}
         />
       </Paper>
     </div>

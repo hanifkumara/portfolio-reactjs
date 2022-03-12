@@ -22,6 +22,7 @@ export {
   AddOutletPage,
   EditOutletPage,
   InventoryPage,
+  AddIncomingStockPage,
   IncomingStockPage,
   OutcomingStockPage,
   AssemblyPage,

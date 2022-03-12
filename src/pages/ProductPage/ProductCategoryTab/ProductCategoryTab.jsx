@@ -147,11 +147,22 @@ export default function ProductCategoryTab() {
     handleDataTable(allProductCategory)
   }, [allProductCategory])
 
+  useEffect(() => {
+    dispatch(getAllProductCategory())
+  }, [])
+
   const handleCloseModalAddCategory = () => setShowModalAddCategory(false)
   const handleOpenModalAddCateogry = () => setShowModalAddCategory(true)
 
   const handleCloseModalEditCategory = () => setShowModalEditCategory(false)
   const handleOpenModalEditCateogry = () => setShowModalEditCategory(true)
+
+  const paginationComponentOptions = {
+    rowsPerPageText: 'Row per Page',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Show All',
+  };
 
   return (
     <div>
@@ -188,6 +199,8 @@ export default function ProductCategoryTab() {
         <DataTable
           data={dataTable}
           columns={columns}
+          pagination
+          paginationComponentOptions={paginationComponentOptions}
         />
       </Paper>
     </div>

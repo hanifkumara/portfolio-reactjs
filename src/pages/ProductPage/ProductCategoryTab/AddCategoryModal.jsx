@@ -19,8 +19,9 @@ export default function AddCategoryPage({
 }) {
   const API_URL = process.env.REACT_APP_API_URL
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
+
+  const [loading, setLoading] = useState(false)
 
   const initialValues = {
     category_name: ''

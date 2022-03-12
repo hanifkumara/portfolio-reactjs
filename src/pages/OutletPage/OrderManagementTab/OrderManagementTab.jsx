@@ -95,6 +95,13 @@ export default function OrderManagementTab() {
   const handleCloseModalAddOrderManagement = () => setShowModalAddOrderManagement(false)
   const handleOpenModalAddOrderManagement = () => setShowModalAddOrderManagement(true)
 
+  const paginationComponentOptions = {
+    rowsPerPageText: 'Row per Page',
+    rangeSeparatorText: 'of',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Show All',
+  };
+  
   return (
     <div>
       <AddOrderManagement
@@ -127,6 +134,7 @@ export default function OrderManagementTab() {
           data={dataTable}
           columns={columns}
           pagination
+          paginationComponentOptions={paginationComponentOptions}
         />
       </Paper>
     </div>
