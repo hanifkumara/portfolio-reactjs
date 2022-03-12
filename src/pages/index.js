@@ -4,7 +4,7 @@ import { OutletPage, AddOutletPage, EditOutletPage } from './OutletPage/index.js
 import { LoginPage, RegisterPage } from './Auth'
 import { ErrorPage } from './ErrorPage'
 import { ProductPage, AddProductPage, EditProductPage } from './ProductPage'
-import { InventoryPage, IncomingStockPage, OutcomingStockPage } from './InventoryPage'
+import { InventoryPage, IncomingStockPage, OutcomingStockPage, AddIncomingStockPage } from './InventoryPage'
 import { AssemblyPage } from './AssemblyPage'
 import { AccountPage } from './AccountPage'
 import VerifyEmailPage from './VerifyEmailPage/VerifyEmailPage.jsx'

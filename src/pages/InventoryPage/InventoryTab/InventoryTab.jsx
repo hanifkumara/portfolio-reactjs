@@ -10,6 +10,7 @@ import {
   Form
 } from 'react-bootstrap'
 import DataTable from 'react-data-table-component'
+// import dayjs from 'dayjs'
 
 export default function InventoryTab() {
 
@@ -99,6 +100,27 @@ export default function InventoryTab() {
     handleDataTable()
   }, [])
 
+  const ExpandableComponent = ({ data }) => {
+    // const stockData = data.stocks.map((item) => {
+    //   return {
+    //     id: item.id,
+    //     batch: item.Incoming_Stock
+    //       ? item.Incoming_Stock.code
+    //       : item.Transfer_Stock
+    //       ? item.Transfer_Stock.code
+    //       : item.Product_Assembly
+    //       ? item.Product_Assembly.code
+    //       : "-",
+    //     stock: item.stock || 0,
+    //     unit: item.Unit?.name || "-",
+    //     expired_date: item.expired_date
+    //       ? dayjs(item.expired_date).format("DD-MMM-YYYY")
+    //       : "-"
+    //   };
+    // });
+    // stockData.sort((a,b)=>a.id-b.id);
+  }
+
   return (
     <div>
       <Paper elevation={0} className='px-3 py-2'>
@@ -134,6 +156,8 @@ export default function InventoryTab() {
         <DataTable
           columns={columns}
           data={dataTable}
+          expandableRows
+          // expandableRowsComponent={<ExpandableComponent />}
         />
       </Paper>
     </div>

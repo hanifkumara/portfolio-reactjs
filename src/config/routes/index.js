@@ -56,6 +56,7 @@ export default function index() {
             <Route path="product/edit/:id" element={<EditProductPage />} />
             <Route path="inventory" element={<InventoryPage />} />
             <Route path="inventory/incoming-stock" element={<IncomingStockPage />} />
+            <Route path="inventory/incoming-stock/add" element={<AddIncomingStockPage />} />
             <Route path="inventory/outcoming-stock" element={<OutcomingStockPage />} />
             <Route path="assembly" element={<AssemblyPage />} />
             <Route path="account" element={<AccountPage />} />

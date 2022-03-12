@@ -58,7 +58,7 @@ export default function RegisterPage() {
       .test('passwords-match', 'Passwords must match', function(value){
         return this.parent.password === value
       })
-      .required('Please Input Confirmatiohn Password'),
+      .required('Please Input Confirmation Password'),
   })
 
   const Toast = (status, message, autoClose= 5000) => {

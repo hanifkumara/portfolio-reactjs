@@ -99,6 +99,11 @@ export default function IncomingStockPage() {
                 Back to Main
               </div>
             </Link>
+            <Link to='/main/adincoming-stock/add'>
+              <div className="btn btn-outline-primary ms-2">
+                Add Incoming Stock
+              </div>
+            </Link>
           </div>
         </div>
         <hr />
