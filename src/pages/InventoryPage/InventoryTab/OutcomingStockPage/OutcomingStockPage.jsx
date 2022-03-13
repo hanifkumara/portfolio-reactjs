@@ -2,17 +2,33 @@ import React, { useState, useEffect } from 'react'
 import { Paper } from '@mui/material'
 import DataTable from 'react-data-table-component'
 import { Link } from 'react-router-dom'
+import { MoreHoriz } from '@mui/icons-material'
 import {
   Row,
   Col,
   InputGroup,
-  Form
+  Form,
+  Dropdown
 } from 'react-bootstrap'
 import { Search } from '@mui/icons-material'
+import { useDispatch, useSelector } from 'react-redux'
+import dayjs from 'dayjs'
+
+import { getAllOutcomingStock } from '../../../../config/redux/actions/outcomingStock'
+import CustomMenu from '../../../../components/CustomMenuDropdown/CustomMenuDropdown'
 
 export default function OutcomingStockPage() {
-
+  const dispatch = useDispatch()
   const [dataTable, setDataTable] = useState([])
+  const { allOutcomingStock } = useSelector(state => state.outcomingStock)
+  const [search, setSearch] = useState('')
+
+  const handleSearch = (e) => setSearch(e.target.value)
+
+  useEffect(() => {
+    dispatch(getAllOutcomingStock(search))
+  }, [search])
+
   const columns = [
     {
       name: 'No',
@@ -23,50 +39,45 @@ export default function OutcomingStockPage() {
     {
       name: 'Code Number',
       sortable: true,
-      selector: (row) => row.code_number
+      selector: (row) => row.code
     },
     {
       name: 'Outlet',
       sortable: true,
-      selector: (row) => row.outlet
+      selector: (row) => row.Outlet?.name
     },
     {
       name: 'Date',
       sortable: true,
-      selector: (row) => row.date
+      selector: (row) => row.date ? dayjs(row.date).format('DD/MM/YYYY') : '-'
     },
     {
-      name: 'Status',
-      sortable: true,
-      selector: (row) => row.status
+      name: 'Actions',
+      cell: (row) => {
+        return (
+          <Dropdown>
+            <Dropdown.Toggle style={{backgroundColor: 'grey', border: 'none'}}>
+              <MoreHoriz color="action" />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu as={CustomMenu}>
+              <Link to={`detail/${row.id}`} state={row}>
+                <Dropdown.Item as="button">
+                  Edit
+                </Dropdown.Item>
+              </Link>
+            </Dropdown.Menu>
+          </Dropdown>
+        );
+      }
     }
   ]
 
-  const handleDataTable = () => {
-    const data = [
-      {
-        id: 1,
-        code_number: 'OUT000001',
-        outlet: 'Kumara Outlet',
-        date: '12 Juni 2022',
-        status: 'Done'
-      },
-      {
-        id: 2,
-        code_number: 'OUT000002',
-        outlet: 'Hanif Outlet',
-        date: '8 September 2022',
-        status: 'Done'
-      },
-      {
-        id: 3,
-        code_number: 'OUT000003',
-        outlet: 'Kumara Outlet',
-        date: '19 Oktober 2022',
-        status: 'Pending'
-      }
-    ]
+  useEffect(() => {
+    dispatch(getAllOutcomingStock())
+  }, [])
 
+  const handleDataTable = (data) => {
     const result = []
     data.map((value, index) => {
       result.push({
@@ -78,8 +89,8 @@ export default function OutcomingStockPage() {
   }
 
   useEffect(() => {
-    handleDataTable()
-  }, [])
+    handleDataTable(allOutcomingStock)
+  }, [allOutcomingStock])
 
   const paginationComponentOptions = {
     rowsPerPageText: 'Row per Page',
@@ -99,6 +110,11 @@ export default function OutcomingStockPage() {
                 Back to Main
               </div>
             </Link>
+            <Link to='add'>
+              <div className="btn btn-outline-primary ms-2">
+                Add Outcoming Stock
+              </div>
+            </Link>
           </div>
         </div>
         <hr />
@@ -110,6 +126,8 @@ export default function OutcomingStockPage() {
               </InputGroup.Text>
               <Form.Control
                 placeholder="Search . . ."
+                value={search}
+                onChange={handleSearch}
               />
             </InputGroup>
           </Col>

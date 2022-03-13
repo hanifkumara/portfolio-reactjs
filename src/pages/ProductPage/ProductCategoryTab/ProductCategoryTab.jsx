@@ -19,11 +19,19 @@ toast.configure()
 
 export default function ProductCategoryTab() {
   const API_URL =  process.env.REACT_APP_API_URL
+  const dispatch = useDispatch()
 
   const [dataTable, setDataTable] = useState([])
   const [showModalAddCategory, setShowModalAddCategory] = useState(false)
   const [showModalEditCategory, setShowModalEditCategory] = useState(false)
   const [dataProductCategory, setDataProductCategory] = useState({})
+  const [search, setSearch] = useState('')
+
+  const handleSearch = (e) => setSearch(e.target.value)
+
+  useEffect(() => {
+    dispatch(getAllProductCategory(search))
+  }, [search])
 
   const Toast = (status, message) => {
     if(status === 'success') {
@@ -49,7 +57,6 @@ export default function ProductCategoryTab() {
     }
   }
 
-  const dispatch = useDispatch()
   const { allProductCategory } = useSelector(state => state.productCategory)
 
   const deleteOutlet = async (row) => {
@@ -191,6 +198,8 @@ export default function ProductCategoryTab() {
               </InputGroup.Text>
               <Form.Control
                 placeholder="Search . . ."
+                value={search}
+                onChange={handleSearch}
               />
             </InputGroup>
           </Col>

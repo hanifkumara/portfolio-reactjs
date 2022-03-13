@@ -2,14 +2,26 @@ import { borderRadius, flexbox, height } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import styles from './ContentPages.module.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { getBusiness } from '../../config/redux/actions/business'
 
 export default function ContentPages() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { business } = useSelector(state => state.business)
+
+  const [fullName, setFullname] = useState('')
   const [prefix, setPrefix] = useState("")
   const [showDropdown, setShowDropdown] = useState(false)
-  const fullName = 'Hanif Kumara'
-  const handlePrefixName = () => {
-    setPrefix(fullName.charAt(0))
+
+  const handlePrefixName = (fullName) => {
+    if(fullName) {
+      setPrefix(fullName.charAt(0))
+      setFullname(fullName)
+    } else {
+      setPrefix('N')
+      setFullname('No Set')
+    }
   }
 
   const handleSetDropdown = () => setShowDropdown(!showDropdown)
@@ -20,7 +32,12 @@ export default function ContentPages() {
   }
 
   useEffect(() => {
+    handlePrefixName(business.name)
+  }, [business] )
+
+  useEffect(() => {
     handlePrefixName()
+    dispatch(getBusiness())
   }, [])
 
   return (
@@ -44,7 +61,7 @@ export default function ContentPages() {
                 alignItems: 'center',
                 padding: '10px 20px'
               }}>
-                <span className={styles.prefix}>H</span> <span className={styles.fullname}>{fullName}</span>
+                <span className={styles.prefix}>{prefix}</span> <span className={styles.fullname}>{fullName}</span>
               </div>
               <div className={styles.dropdownBottom}>
                 <div className="btn btn-outline-primary" onClick={handleLogout}>

@@ -14,9 +14,9 @@ export default function OutletPage() {
           <OutletTab />
         </Tab>
 
-        <Tab eventKey="order-management" title="Order Management">
+        {/* <Tab eventKey="order-management" title="Order Management">
           <OrderManagementTab/>
-        </Tab> 
+        </Tab>  */}
 
       </Tabs>
     </div>

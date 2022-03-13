@@ -12,14 +12,23 @@ import {
 import DataTable from 'react-data-table-component'
 import dayjs from 'dayjs'
 import { ListGroup } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllInventory } from '../../../config/redux/actions/inventory'
 
 export default function InventoryTab() {
+  const dispatch = useDispatch()
 
   const [dataTable, setDataTable] = useState([])
 
   const { allInventory } = useSelector(state => state.inventory)
-  console.log('allInventory', allInventory)
+  const [search, setSearch] = useState('')
+
+  const handleSearch = (e) => setSearch(e.target.value)
+
+  useEffect(() => {
+    dispatch(getAllInventory(search))
+  }, [search])
+
   const columns = [
     {
       name: 'No',
@@ -60,7 +69,6 @@ export default function InventoryTab() {
   ]
 
   const handleDataTable = (data) => {
-    console.log('data', data)
     const result = []
     data.map((value, index) => {
       let incomingStock = 0;
@@ -73,9 +81,8 @@ export default function InventoryTab() {
               incomingStock += stock.quantity;
             }
           }
-  
-          if (val.Outcoming_Stock_Products?.length) {
-            for (const stock of val.Outcoming_Stock_Products) {
+          if (val.OutcomingStockProducts) {
+            for (const stock of val.OutcomingStockProducts) {
               outcomingStock += stock.quantity;
             }
           }
@@ -107,11 +114,10 @@ export default function InventoryTab() {
         stock: item.stock || 0,
         expiredDate: item.expiredDate
           ? dayjs(item.expiredDate).format("DD-MMM-YYYY")
-          : "-"
+          : "-",
+        createdAt: item.createdAt
       };
     });
-    stockData.sort((a,b)=>a.id-b.id);
-    console.log("stockData", stockData)
 
     return (
       <>
@@ -183,6 +189,8 @@ export default function InventoryTab() {
               </InputGroup.Text>
               <Form.Control
                 placeholder="Search . . ."
+                value={search}
+                onChange={handleSearch}
               />
             </InputGroup>
           </Col>

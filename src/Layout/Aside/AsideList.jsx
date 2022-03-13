@@ -6,11 +6,11 @@ import { NavLink } from 'react-router-dom'
 export default function AsideList({handleToggleAside, hide}) {
 
   const listMenu = [
-    {
-      key: "dashboard",
-      path: "/main/dashboard",
-      name: "Dashboard"
-    },
+    // {
+    //   key: "dashboard",
+    //   path: "/main/dashboard",
+    //   name: "Dashboard"
+    // },
     {
       key: "outlet",
       path: "/main/outlet",
@@ -26,11 +26,11 @@ export default function AsideList({handleToggleAside, hide}) {
       path: "/main/inventory",
       name: "Inventory"
     },
-    {
-      key: "assembly",
-      path: "/main/assembly",
-      name: "Assembly"
-    },
+    // {
+    //   key: "assembly",
+    //   path: "/main/assembly",
+    //   name: "Assembly"
+    // },
     {
       key: "account",
       path: "/main/account",

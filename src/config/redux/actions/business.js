@@ -8,5 +8,8 @@ export const getBusiness = () => {
         console.log("result business", result.data.data.data)
         dispatch({type: 'SET_BUSINESS', payload: result.data.data.data})
       })
+      .catch(err => {
+        console.log("err getBusiness", err)
+      })
   }
 }

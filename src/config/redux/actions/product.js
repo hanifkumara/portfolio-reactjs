@@ -1,12 +1,15 @@
 import axios from "axios"
 const API_URL = process.env.REACT_APP_API_URL
 
-export const getAllProduct = () => {
+export const getAllProduct = (name = '') => {
   return (dispatch) => {
-    axios.get(`${API_URL}/api/v1/product/by-business`)
+    axios.get(`${API_URL}/api/v1/product/by-business?name=${name}`)
       .then(result => {
         console.log("result all product", result.data.data.result)
         dispatch({type: 'SET_ALL_PRODUCT', payload: result.data.data.result})
+      })
+      .catch(err => {
+        console.log("err getAllProduct", err)
       })
   }
 }

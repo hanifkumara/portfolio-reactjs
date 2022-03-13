@@ -14,13 +14,20 @@ import { getAllProductCategory } from '../../../config/redux/actions/product_cat
 export default function ProductTab() {
   const API_URL = process.env.REACT_APP_API_URL
 
+  const dispatch = useDispatch()
+
   const [dataTable, setDataTable] = useState([])
+  const [search, setSearch] = useState('')
+
+  const handleSearch = (e) => setSearch(e.target.value)
+
+  useEffect(() => {
+    dispatch(getAllProduct(search))
+  }, [search])
 
   const { allProduct } = useSelector(state => state.product)
 
   const { allOutlet } = useSelector(state => state.outlet)
-
-  const dispatch = useDispatch()
 
   const Toast = (status, message, autoClose= 5000) => {
     if(status === 'success') {
@@ -175,6 +182,8 @@ export default function ProductTab() {
               </InputGroup.Text>
               <Form.Control
                 placeholder="Search . . ."
+                value={search}
+                onChange={handleSearch}
               />
             </InputGroup>
           </Col>

@@ -27,6 +27,9 @@ export default function OutletTab() {
   const dispatch = useDispatch()
 
   const [dataTable, setDataTable] = useState([])
+  const [search, setSearch] = useState('')
+
+  const handleSearch = (e) => setSearch(e.target.value)
 
   const Toast = (status, message, autoClose= 5000) => {
     if(status === 'success') {
@@ -147,6 +150,10 @@ export default function OutletTab() {
     handleDataTable()
   }, [allOutlet])
 
+  useEffect(() => {
+    dispatch(getAllOutlet(search))
+  }, [search])
+
   const paginationComponentOptions = {
     rowsPerPageText: 'Row per Page',
     rangeSeparatorText: 'of',
@@ -174,6 +181,8 @@ export default function OutletTab() {
               </InputGroup.Text>
               <Form.Control
                 placeholder="Search . . ."
+                value={search}
+                onChange={handleSearch}
               />
             </InputGroup>
           </Col>

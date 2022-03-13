@@ -20,9 +20,9 @@ import axios from 'axios'
 
 import { CalendarToday, Delete } from "@mui/icons-material";
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllIncomingStock } from '../../../../config/redux/actions/incomingStock'
+import { getAllOutcomingStock } from '../../../../config/redux/actions/outcomingStock'
 
-export default function AddIncomingStockPage() {
+export default function AddOutcomingStockPage() {
   const API_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -31,7 +31,7 @@ export default function AddIncomingStockPage() {
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState('')
   const [hasExpired, setHasExpired] = useState([]);
-  const [incomingStockProduct, setIncomingStockProducts] = useState([]);
+  const [outcomingStockProduct, setOutcomingStockProducts] = useState([]);
 
   const enableLoading = () => setLoading(true);
   const disableLoading = () => setLoading(false);
@@ -43,11 +43,10 @@ export default function AddIncomingStockPage() {
     outletId: "",
     notes: "",
     date: startDate,
-    products: [
+    stocks: [
       {
         id: "",
-        quantity: 0,
-        expiredDate: ""
+        quantity: 0
       }
     ]
   };
@@ -58,7 +57,7 @@ export default function AddIncomingStockPage() {
       .required("Please Choose An Outlet"),
     notes: Yup.string(),
     date: Yup.string().required("Please Input Date"),
-    products: Yup.array().of(
+    stocks: Yup.array().of(
       Yup.object().shape({
         id: Yup.string()
           .min(1)
@@ -79,17 +78,17 @@ export default function AddIncomingStockPage() {
         outletId: values.outletId,
         notes: values.notes,
         date: values.date ? dayjs(values.date).format('YYYY/MM/DD HH:mm:ss') : null,
-        products: JSON.stringify(values.products)
+        stocks: JSON.stringify(values.stocks)
       };
 
       console.log("data yang akan disave", stockData);
 
       try {
         enableLoading();
-        await axios.post(`${API_URL}/api/v1/incoming-stock`, stockData);
+        await axios.post(`${API_URL}/api/v1/outcoming-stock`, stockData);
         disableLoading();
-        dispatch(getAllIncomingStock())
-        navigate('/main/inventory/incoming-stock');
+        dispatch(getAllOutcomingStock())
+        navigate('/main/inventory/outcoming-stock');
       } catch (err) {
         setAlert(err.response?.data.message || err.message);
         disableLoading();
@@ -111,20 +110,28 @@ export default function AddIncomingStockPage() {
 
   const optionsProduct = allInventory
     .map((item) => {
-      console.log("semua item", item);
       if (item.outletId === formikStock.values.outletId) {
-        return {
-          value: item.id,
-          label: item.name,
-          Stocks: item.Stocks,
-          Unit: item.unit_id,
-          price: item.price
-        };
+        return item;
       } else {
         return "";
       }
     })
-    .filter((item) => item);
+    .filter((item) => item)
+    .map((item) => {
+      return {
+        label: item.name,
+        options: item.Stocks.map((val) => {
+          return {
+            value: val.id,
+            label: `${item.name} | Stock: ${val.stock} | Expired: ${
+              val.expiredDate
+                ? dayjs(val.expiredDate).format("DD-MMM-YYYY")
+                : "-"
+            }`
+          };
+        })
+      };
+    });
 
   const optionsOutlet = allOutlet.map((item) => {
     return { value: item.id, label: item.name };
@@ -149,18 +156,43 @@ export default function AddIncomingStockPage() {
   const handleChangeQuantity = (e, idx) => {
     const { value } = e.target;
 
-    formikStock.setFieldValue(`products[${idx}].quantity`, value);
+    formikStock.setFieldValue(`stocks[${idx}].quantity`, value);
   };
 
   const handleExpiredDate = (date, idx) => {
-    incomingStockProduct[idx] = date;
+    outcomingStockProduct[idx] = date;
     const formatDate = dayjs(date).format('YYYY/MM/DD HH:mm:ss')
-    formikStock.setFieldValue(`products[${idx}].expiredDate`, formatDate);
+    formikStock.setFieldValue(`stocks[${idx}].expiredDate`, formatDate);
   };
 
   const CustomInputExpiredDate = ({ value, onClick }) => {
     return <Form.Control type="text" defaultValue={value} onClick={onClick} />;
   };
+
+  const groupStyles = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
+  };
+  const groupBadgeStyles = {
+    backgroundColor: "#EBECF0",
+    borderRadius: "2em",
+    color: "#172B4D",
+    display: "inline-block",
+    fontSize: 12,
+    fontWeight: "normal",
+    lineHeight: "1",
+    minWidth: 1,
+    padding: "0.16666666666667em 0.5em",
+    textAlign: "center"
+  };
+
+  const formatGroupLabel = (data) => (
+    <div style={groupStyles}>
+      <span>{data.label}</span>
+      <span style={groupBadgeStyles}>{data.options.length}</span>
+    </div>
+  );
 
   return (
     <div>
@@ -170,10 +202,10 @@ export default function AddIncomingStockPage() {
             <Form noValidate onSubmit={formikStock.handleSubmit}>
               <div className="d-flex justify-content-between">
                 <div className="headerStart">
-                  <h3>Add Incoming Stock</h3>
+                  <h3>Add Outcoming Stock</h3>
                 </div>
                 <div className="d-flex">
-                  <Link to="/main/inventory/incoming-stock">
+                  <Link to="/main/inventory/outcoming-stock">
                     <div className="btn btn-outline-secondary">
                       Cancel
                     </div>
@@ -202,7 +234,7 @@ export default function AddIncomingStockPage() {
                       classNamePrefix="select"
                       onChange={(value) => {
                         formikStock.setFieldValue("outletId", value.value);
-                        formikStock.setFieldValue("products", [
+                        formikStock.setFieldValue("stocks", [
                           {
                             id: "",
                             quantity: 0
@@ -275,83 +307,44 @@ export default function AddIncomingStockPage() {
                       <h6>Quantity</h6>
                     </Col>
 
-                    <Col style={{ padding: "1rem", textAlign: "center" }}>
-                      <h6>Expired Date</h6>
-                    </Col>
-
                     <Col sm={1}></Col>
                   </Row>
 
                   <FormikProvider value={formikStock}>
                     <FieldArray
-                      name="products"
+                      name="stocks"
                       render={(arrayHelpers) => {
                         return (
                           <div>
-                            {formikStock.values.products.map((item, index) => {
+                            {formikStock.values.stocks.map((item, index) => {
                               return (
                                 <Row className="mb-2" key={index}>
                                   <Col>
                                     <Form.Group>
                                       <Select
                                         options={optionsProduct}
+                                        formatGroupLabel={formatGroupLabel}
                                         placeholder="Select"
-                                        name={`products[${index}].id`}
+                                        name={`stocks[${index}].id`}
                                         className="basic-single"
                                         classNamePrefix="select"
                                         onChange={(value) => {
-                                          console.log('value when chose product', value)
                                           formikStock.setFieldValue(
-                                            `products[${index}].id`,
+                                            `stocks[${index}].id`,
                                             value.value
                                           );
-
                                           formikStock.setFieldValue(
-                                            `products[${index}].quantity`,
+                                            `stocks[${index}].quantity`,
                                             1
-                                          );
-
-                                          const currStock = value.Stocks.find(
-                                            (val) => val.isInitial
-                                          );
-                                          
-                                          console.log("currStock", currStock);
-                                          if (currStock?.expiredDate) {
-                                            const resDate = new Date(
-                                              currStock.expiredDate
-                                            );
-                                            const tempExpired = hasExpired;
-                                            hasExpired[index] = true;
-                                            setHasExpired(tempExpired);
-                                            formikStock.setFieldValue(
-                                              `products[${index}].expiredDate`,
-                                              resDate
-                                            );
-                                            const tempExpiredDate = incomingStockProduct;
-                                            tempExpiredDate[index] = resDate;
-                                            setIncomingStockProducts(
-                                              tempExpiredDate
-                                            );
-                                          } else {
-                                            console.log(
-                                              "TIDAK masuk expired nya"
-                                            );
-                                            const tempExpired = hasExpired;
-                                            hasExpired[index] = null;
-                                            setHasExpired(tempExpired);
-                                            formikStock.setFieldValue(
-                                              `products[${index}].expiredDate`,
-                                              null
-                                            );
-                                          }
+                                          )
                                         }}
                                       />
-                                      {formikStock.touched.products &&
-                                      formikStock.errors.products ? (
+                                      {formikStock.touched.stocks &&
+                                      formikStock.errors.stocks ? (
                                         <div className="fv-plugins-message-container">
                                           <div className="fv-help-block">
                                             {
-                                              formikStock.errors.products[index]
+                                              formikStock.errors.stocks[index]
                                                 ?.id
                                             }
                                           </div>
@@ -363,9 +356,9 @@ export default function AddIncomingStockPage() {
                                     <Form.Group>
                                       <Form.Control
                                         type="number"
-                                        name={`products[${index}].quantity`}
+                                        name={`stocks[${index}].quantity`}
                                         {...formikStock.getFieldProps(
-                                          `products[${index}].quantity`
+                                          `stocks[${index}].quantity`
                                         )}
                                         onChange={(e) => {
                                           handleChangeQuantity(e, index);
@@ -375,12 +368,12 @@ export default function AddIncomingStockPage() {
                                         }
                                         required
                                       />
-                                      {formikStock.touched.products &&
-                                      formikStock.errors.products ? (
+                                      {formikStock.touched.stocks &&
+                                      formikStock.errors.stocks ? (
                                         <div className="fv-plugins-message-container">
                                           <div className="fv-help-block">
                                             {
-                                              formikStock.errors.products[index]
+                                              formikStock.errors.stocks[index]
                                                 ?.quantity
                                             }
                                           </div>
@@ -388,46 +381,6 @@ export default function AddIncomingStockPage() {
                                       ) : null}
                                     </Form.Group>
                                   </Col>
-
-                                  {hasExpired[index] ? (
-                                    <Col>
-                                      <Form.Group>
-                                        <DatePicker
-                                          name={`products[${index}].expiredDate`}
-                                          selected={incomingStockProduct[index]}
-                                          onChange={(date) =>
-                                            handleExpiredDate(date, index)
-                                          }
-                                          customInput={
-                                            <CustomInputExpiredDate />
-                                          }
-                                          required
-                                        />
-                                        {formikStock.touched.products &&
-                                        formikStock.errors.products ? (
-                                          <div className="fv-plugins-message-container">
-                                            <div className="fv-help-block">
-                                              {
-                                                formikStock.errors.products[index]
-                                                  ?.expiredDate
-                                              }
-                                            </div>
-                                          </div>
-                                        ) : null}
-                                      </Form.Group>
-                                    </Col>
-                                  ) : (
-                                    <Col>
-                                      <Form.Group>
-                                        <Form.Control
-                                          type="text"
-                                          value="-"
-                                          disabled
-                                          name="expiredDate"
-                                        />
-                                      </Form.Group>
-                                    </Col>
-                                  )}
 
                                   <Col sm={1}>
                                     <Button
@@ -444,7 +397,7 @@ export default function AddIncomingStockPage() {
                             <Row style={{ padding: "1rem", display: "inline-block" }}>
                               <Button
                                 onClick={() =>
-                                  arrayHelpers.push(initialValueStock.products[0])
+                                  arrayHelpers.push(initialValueStock.stocks[0])
                                 }
                                 variant="primary"
                               >

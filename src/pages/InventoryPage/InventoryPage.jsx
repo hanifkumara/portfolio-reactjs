@@ -7,8 +7,6 @@ import InventoryTab from './InventoryTab/InventoryTab'
 import { useDispatch } from 'react-redux'
 import { getAllProduct } from '../../config/redux/actions/product'
 import { getAllInventory } from '../../config/redux/actions/inventory'
-import { getAllIncomingStock } from '../../config/redux/actions/incomingStock'
-import { getAllOutcomingStock } from '../../config/redux/actions/outcomingStock'
 import { getAllOutlet } from '../../config/redux/actions/outlet'
 
 export default function InventoryPage() {
@@ -19,8 +17,6 @@ export default function InventoryPage() {
     dispatch(getAllProduct())
     dispatch(getAllOutlet())
     dispatch(getAllInventory())
-    dispatch(getAllIncomingStock())
-    dispatch(getAllOutcomingStock())
   }, [])
 
   return (

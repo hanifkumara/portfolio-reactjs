@@ -108,7 +108,8 @@ export default function LoginPage() {
           openModalResendVerificationLink()
         } else {
           localStorage.setItem('token', data.data.token)
-          navigate('/main/dashboard')
+          // navigate('/main/dashboard')
+          navigate('/main/outlet')
         }
         setLoading(false)
       } catch (error) {

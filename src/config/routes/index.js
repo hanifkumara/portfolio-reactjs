@@ -20,8 +20,11 @@ import {
   EditOutletPage,
   InventoryPage,
   AddIncomingStockPage,
+  DetailIncomingStockPage,
   IncomingStockPage,
   OutcomingStockPage,
+  AddOutcomingStockPage,
+  DetailOutcomingStockPage,
   AssemblyPage,
   AccountPage,
   VerifyEmailPage
@@ -58,7 +61,10 @@ export default function index() {
             <Route path="inventory" element={<InventoryPage />} />
             <Route path="inventory/incoming-stock" element={<IncomingStockPage />} />
             <Route path="inventory/incoming-stock/add" element={<AddIncomingStockPage />} />
+            <Route path="inventory/incoming-stock/detail/:id" element={<DetailIncomingStockPage />} />
             <Route path="inventory/outcoming-stock" element={<OutcomingStockPage />} />
+            <Route path="inventory/outcoming-stock/add" element={<AddOutcomingStockPage />} />
+            <Route path="inventory/outcoming-stock/detail/:id" element={<DetailOutcomingStockPage />} />
             <Route path="assembly" element={<AssemblyPage />} />
             <Route path="account" element={<AccountPage />} />
           </Route>
