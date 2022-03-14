@@ -29,7 +29,7 @@
 * [Contact](#contact)
 
 ## About the Project
-Web App to display all Outlets and Products that have been created in Inventory Management. Can add products to cart and make transactions
+A Web App to manage incoming or outgoing goods. Can add expiration date for each item so that it can be easy to manage stock out or in
 
 ### Built With
 This is an example of how to list things you need to use the software and how to install them.
