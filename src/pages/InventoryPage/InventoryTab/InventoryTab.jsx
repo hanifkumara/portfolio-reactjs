@@ -124,9 +124,9 @@ export default function InventoryTab() {
         <ListGroup style={{ padding: "1rem", marginLeft: "1rem" }}>
           <ListGroup.Item>
             <Row>
-              <Col style={{ fontWeight: "700" }}>Batch</Col>
-              <Col style={{ fontWeight: "700" }}>Stock</Col>
-              <Col style={{ fontWeight: "700" }}>Expired Date</Col>
+              <Col style={{ fontWeight: "700", fontSize: '0.8rem' }}>Batch</Col>
+              <Col style={{ fontWeight: "700", fontSize: '0.8rem' }}>Stock</Col>
+              <Col style={{ fontWeight: "700", fontSize: '0.8rem' }}>Expired Date</Col>
             </Row>
           </ListGroup.Item>
           {stockData.length ? (
@@ -134,9 +134,9 @@ export default function InventoryTab() {
               return (
                 <ListGroup.Item key={index}>
                   <Row>
-                    <Col>{val.batch}</Col>
-                    <Col>{val.stock}</Col>
-                    <Col>{val.expiredDate}</Col>
+                    <Col style={{ fontSize: '0.8rem' }}>{val.batch}</Col>
+                    <Col style={{ fontSize: '0.8rem' }}>{val.stock}</Col>
+                    <Col style={{ fontSize: '0.8rem' }}>{val.expiredDate}</Col>
                   </Row>
                 </ListGroup.Item>
               );

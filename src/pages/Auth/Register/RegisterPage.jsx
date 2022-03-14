@@ -5,16 +5,18 @@ import {
   Spinner
 } from 'react-bootstrap'
 import styles from './RegisterPage.module.css'
-import { Link } from 'react-router-dom'
-import { useFormik  } from 'formik'
+import { Link, useNavigate } from 'react-router-dom'
+import { useFormik } from 'formik'
 import * as Yup from "yup";
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import ModalResendVerificationLink from '../ModalResendVerificationLink'
 
 toast.configure()
 
 export default function RegisterPage() {
+  const navigate = useNavigate()
+
   const [modalResendVerificationLink, setModalResendVerificationLink] = useState(false)
   const [accountBusiness, setAccountBusines] = useState({
     email: 'hanifkumara00@gmail.com', 
@@ -114,13 +116,17 @@ export default function RegisterPage() {
           password: values.password
         })
         Toast('success', 'Your Business Account has been created successfully', 4500)
-        openModalResendVerificationLink()
-        await handleSendVerificationLink(data.data.email, data.data.businessId)
+
+        // Fungsi untuk mengirim link verification
+        // openModalResendVerificationLink()
+        // await handleSendVerificationLink(data.data.email, data.data.businessId)
+
         setAccountBusines({
           businessId: data.data.businessId,
           email: data.data.email
         })
         setLoading(false)
+        navigate('/auth/login')
       } catch (error) {
         Toast('error', `Failed registration Business Account ${error.response.data.err.message}, please try again`)
         setLoading(false)

@@ -18,7 +18,7 @@ export default function HeaderAside({handleToggleAside}) {
           <KeyboardDoubleArrowRightIcon onClick={toggleAside}/>
         ) : (
           <>
-            <div className='font-17 font-weight-700'>LOGITECH</div>
+            <div className='font-17 font-weight-700'>INVENTORY Management</div>
             <KeyboardDoubleArrowLeftIcon onClick={toggleAside}/>
           </>
         )}

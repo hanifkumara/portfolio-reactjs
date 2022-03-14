@@ -95,22 +95,23 @@ export default function LoginPage() {
           email: values.email,
           password: values.password
         })
-        console.log("response login", data.data)
-        if(!data.data.isVerified){
-          const businessId = data.data.businessId
-          const email = data.data.email
-          await handleSendVerificationLink(email, businessId)
-          Toast('error', `Your account is not verified. Please check email ${email} for verify your account`)
-          setAccountBusiness({
-            businessId: businessId,
-            email: email
-          })
-          openModalResendVerificationLink()
-        } else {
-          localStorage.setItem('token', data.data.token)
-          // navigate('/main/dashboard')
-          navigate('/main/outlet')
-        }
+        // if(!data.data.isVerified){
+        //   // Check jika account nya belum verified. maka dikirim link verify ke email  lage
+        //   const businessId = data.data.businessId
+        //   const email = data.data.email
+        //   await handleSendVerificationLink(email, businessId)
+        //   Toast('error', `Your account is not verified. Please check email ${email} for verify your account`)
+        //   setAccountBusiness({
+        //     businessId: businessId,
+        //     email: email
+        //   })
+        //   openModalResendVerificationLink()
+        // } else {
+        // Jika akun sudah verified, lanjut ke menu outlet
+        localStorage.setItem('token', data.data.token)
+        // navigate('/main/dashboard')
+        navigate('/main/outlet')
+        // }
         setLoading(false)
       } catch (error) {
         if(error.response.data.err.message === 'Password Wrong!!') {

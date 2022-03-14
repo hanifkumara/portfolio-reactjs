@@ -166,7 +166,7 @@ export default function EditOutletPage() {
       <Paper elevation={0} className='px-3 py-2'>
         <Form onSubmit={formikAddOutlet.handleSubmit}>
           <div className="d-flex justify-content-between">
-            <h4>Add Outlet</h4>
+            <h4>Edit Outlet</h4>
             <div className='d-flex'>
               <Link to="/main/outlet">
                 <div className="btn btn-outline-secondary">
