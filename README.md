@@ -68,7 +68,7 @@ REACT_APP_API_URL=http://localhost:5000
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+yarn start
 ```
 
 ### Compiles and minifies for production
